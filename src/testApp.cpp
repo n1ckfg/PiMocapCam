@@ -4,6 +4,8 @@ using namespace cv;
 using namespace ofxCv;
 
 void testApp::setup() {
+    oscAddress = "blob";
+    hostName = "nfgRPi";//getHostName();
     doDrawInfo  = true;
     width = ofGetWidth();
     height = ofGetHeight();
@@ -24,13 +26,13 @@ void testApp::setup() {
     //consoleListener.setup(this);
 
     ofSetFrameRate(60);
-    thresholdValue = 127;
-    contourThreshold = 127.0;
+    thresholdValue = 127; //127;
+    contourThreshold = 2;//127.0;
 
     sender.setup(HOST, PORT);
 
-    contourFinder.setMinAreaRadius(10);
-    contourFinder.setMaxAreaRadius(150);
+    contourFinder.setMinAreaRadius(1);//10);
+    contourFinder.setMaxAreaRadius(250);//150);
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
 }
@@ -146,8 +148,8 @@ void testApp::draw() {
 
 void testApp::sendOsc(int index, float x, float y, float z) {
     ofxOscMessage m;
-    m.setAddress("/blob");
-    //m.addStringArg("hello");
+    m.setAddress("/" + oscAddress);
+    m.addStringArg(hostName);
     m.addIntArg(index);
     m.addFloatArg(x);
     m.addFloatArg(y);
@@ -182,6 +184,18 @@ void testApp::keyPressed(int key) {
 void testApp::keyReleased(int key) {
     thresholdKeyFast = false;
     thresholdKeyCounter = 0;
+}
+
+string testApp::getHostName() {
+    FILE* stream = popen("hostname", "r");  
+    ostringstream output;  
+
+    while(!feof(stream) && !ferror(stream)) {  
+        char buf[128];  
+        int bytesRead = fread(buf, 1, 128, stream);  
+        output.write(buf, bytesRead);  
+    }  
+    return ofToString(output.str());  
 }
 
 //void testApp::onCharacterReceived(KeyListenerEventData& e) {

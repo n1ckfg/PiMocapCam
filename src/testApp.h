@@ -5,8 +5,8 @@
 #include "ofxCvPiCam.h"
 //#include "TerminalListener.h"
 #include "ofxOsc.h"
-#define HOST "192.168.0.3"
-#define PORT 12345
+#define HOST "Allosaurus.local"
+#define PORT 7110
 
 class testApp : public ofBaseApp {
 
@@ -19,11 +19,14 @@ class testApp : public ofBaseApp {
 		void keyReleased(int key);
 	    //void testApp::onCharacterReceived(KeyListenerEventData& e);		
 		//TerminalListener consoleListener;
-					
+        string getHostName();
+
 		ofxCvPiCam cam;
 		cv::Mat frame, frameProcessed;
 		
-		int width;
+		string oscAddress;
+        string hostName;
+        int width;
 		int height;
 	    int thresholdValue;
 		int thresholdKeyCounter;
