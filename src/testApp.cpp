@@ -26,7 +26,7 @@ void testApp::setup() {
     //consoleListener.setup(this);
 
     ofSetFrameRate(60);
-    thresholdValue = 127; //127;
+    thresholdValue = 245; //127;
     contourThreshold = 2;//127.0;
 
     sender.setup(HOST, PORT);
@@ -161,7 +161,7 @@ void testApp::keyPressed(int key) {
     thresholdKeyCounter++;
     if (thresholdKeyCounter > 10) thresholdKeyFast = true;
 
-    if (key == OF_KEY_PAGE_DOWN) {
+    if (key == OF_KEY_PAGE_DOWN || key == OF_KEY_DOWN) {
         if (thresholdKeyFast) {
             thresholdValue -= 10;
         } else {
@@ -169,7 +169,7 @@ void testApp::keyPressed(int key) {
         }
     }
 
-    if (key == OF_KEY_PAGE_UP) {
+    if (key == OF_KEY_PAGE_UP || OF_KEY_UP) {
        if (thresholdKeyFast) {
            thresholdValue += 10;
        } else {
