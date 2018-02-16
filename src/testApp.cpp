@@ -85,7 +85,7 @@ void testApp::sendOsc(int index, float x, float y, float z) {
     m.addIntArg(index);
     m.addFloatArg(x);
     m.addFloatArg(y);
-    m.addFloatArg(z);
+    //m.addFloatArg(z);
     sender.sendMessage(m);
 }
 
