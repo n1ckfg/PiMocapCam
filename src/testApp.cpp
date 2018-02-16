@@ -26,7 +26,7 @@ void testApp::setup() {
     //consoleListener.setup(this);
 
     ofSetFrameRate(60);
-    thresholdValue = 200; //127;
+    thresholdValue = 210; //127;
     contourThreshold = 2;//127.0;
 
     sender.setup(HOST, PORT);
