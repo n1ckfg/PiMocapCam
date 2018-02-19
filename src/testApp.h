@@ -22,8 +22,8 @@ class testApp : public ofBaseApp {
         //string getHostName();
 
 		string hostName;
-		//ofFile file;
-		//ofBuffer buff;
+		ofFile file;
+		ofBuffer buff;
 
 		ofxCvPiCam cam;
 		cv::Mat frame, frameProcessed;
