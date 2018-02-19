@@ -5,7 +5,7 @@
 #include "ofxCvPiCam.h"
 //#include "TerminalListener.h"
 #include "ofxOsc.h"
-#define HOST "255.255.255.255"
+#define HOST "Allosaurus.local"
 #define PORT 7110
 
 class testApp : public ofBaseApp {
