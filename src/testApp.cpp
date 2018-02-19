@@ -17,7 +17,7 @@ void testApp::setup() {
         buff.set(hostname.c_str(), hostname.size());
         ofBufferToFile("hostname.txt", buff);
     }
-    //cout << hostname;
+    cout << hostname;
 
     oscAddress = "blob";
     //hostName = "nfgRPi";//getHostName();
@@ -96,7 +96,7 @@ void testApp::draw() {
 void testApp::sendOsc(int index, float x, float y, float z) {
     ofxOscMessage m;
     m.setAddress("/" + oscAddress);
-    m.addStringArg(hostName);
+    m.addStringArg(hostname);
     m.addIntArg(index);
     m.addFloatArg(x);
     m.addFloatArg(y);

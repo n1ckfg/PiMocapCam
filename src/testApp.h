@@ -25,7 +25,7 @@ class testApp : public ofBaseApp {
 		cv::Mat frame, frameProcessed;
 		
 		string oscAddress;
-        string hostName;
+        //string hostName;
         int width;
 		int height;
 	    int thresholdValue;
@@ -44,5 +44,5 @@ class testApp : public ofBaseApp {
 		string hostname;
 		ofFile file;
 		ofBuffer buff;
-		
+
 };
