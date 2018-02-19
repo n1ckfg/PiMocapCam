@@ -19,7 +19,11 @@ class testApp : public ofBaseApp {
 		void keyReleased(int key);
 	    //void testApp::onCharacterReceived(KeyListenerEventData& e);		
 		//TerminalListener consoleListener;
-        string getHostName();
+        //string getHostName();
+
+		string hostname;
+		//ofFile file;
+		//ofBuffer buff;
 
 		ofxCvPiCam cam;
 		cv::Mat frame, frameProcessed;
@@ -40,9 +44,5 @@ class testApp : public ofBaseApp {
 		float contourThreshold;
 		ofxCv::TrackingColorMode trackingColorMode;
 		ofColor targetColor;
-
-		string hostname;
-		ofFile file;
-		ofBuffer buff;
 
 };

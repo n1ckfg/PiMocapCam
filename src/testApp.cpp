@@ -5,6 +5,7 @@ using namespace ofxCv;
 
 void testApp::setup() {
     hostname = "RPi"
+    /*
     file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
     if (file) {
         buff = file.readToBuffer();
@@ -18,6 +19,9 @@ void testApp::setup() {
         ofBufferToFile("hostname.txt", buff);
     }
     cout << hostname;
+    */
+    hostname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+    ofStringReplace(hostname, "-", "");
 
     oscAddress = "blob";
     //hostName = "nfgRPi";//getHostName();
@@ -133,6 +137,7 @@ void testApp::keyReleased(int key) {
     thresholdKeyCounter = 0;
 }
 
+/*
 string testApp::getHostName() {
     FILE* stream = popen("hostname", "r");  
     ostringstream output;  
@@ -144,6 +149,7 @@ string testApp::getHostName() {
     }  
     return ofToString(output.str());  
 }
+*/
 
 //void testApp::onCharacterReceived(KeyListenerEventData& e) {
        //keyPressed((int) e.character);
