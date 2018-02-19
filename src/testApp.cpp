@@ -4,24 +4,24 @@ using namespace cv;
 using namespace ofxCv;
 
 void testApp::setup() {
-    hostname = "RPi"
+    hostName = "RPi"
     /*
-    file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
+    file.open(ofToDataPath("hostName.txt"), ofFile::ReadWrite, false);
     if (file) {
         buff = file.readToBuffer();
-        hostname = buff.getText();
+        hostName = buff.getText();
     } else {
-        hostname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
-        ofStringReplace(hostname, "-", "");
-        ofStringReplace(hostname, "\n", "");
-        ofStringReplace(hostname, "\r", "");
-        buff.set(hostname.c_str(), hostname.size());
-        ofBufferToFile("hostname.txt", buff);
+        hostName += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+        ofStringReplace(hostName, "-", "");
+        ofStringReplace(hostName, "\n", "");
+        ofStringReplace(hostName, "\r", "");
+        buff.set(hostName.c_str(), hostName.size());
+        ofBufferToFile("hostName.txt", buff);
     }
-    cout << hostname;
+    cout << hostName;
     */
-    hostname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
-    ofStringReplace(hostname, "-", "");
+    hostName += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+    ofStringReplace(hostName, "-", "");
 
     oscAddress = "blob";
     //hostName = "nfgRPi";//getHostName();
@@ -100,7 +100,7 @@ void testApp::draw() {
 void testApp::sendOsc(int index, float x, float y, float z) {
     ofxOscMessage m;
     m.setAddress("/" + oscAddress);
-    m.addStringArg(hostname);
+    m.addStringArg(hostName);
     m.addIntArg(index);
     m.addFloatArg(x);
     m.addFloatArg(y);
@@ -139,7 +139,7 @@ void testApp::keyReleased(int key) {
 
 /*
 string testApp::getHostName() {
-    FILE* stream = popen("hostname", "r");  
+    FILE* stream = popen("hostName", "r");  
     ostringstream output;  
 
     while(!feof(stream) && !ferror(stream)) {  

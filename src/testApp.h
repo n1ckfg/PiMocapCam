@@ -21,7 +21,7 @@ class testApp : public ofBaseApp {
 		//TerminalListener consoleListener;
         //string getHostName();
 
-		string hostname;
+		string hostName;
 		//ofFile file;
 		//ofBuffer buff;
 
@@ -29,7 +29,6 @@ class testApp : public ofBaseApp {
 		cv::Mat frame, frameProcessed;
 		
 		string oscAddress;
-        //string hostName;
         int width;
 		int height;
 	    int thresholdValue;
