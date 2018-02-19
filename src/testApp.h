@@ -24,21 +24,27 @@ class testApp : public ofBaseApp {
 		ofxCvPiCam cam;
 		cv::Mat frame, frameProcessed;
 		
-		string oscAddress;
-        string hostName;
         int width;
 		int height;
-	    int thresholdValue;
-		int thresholdKeyCounter;
-		bool thresholdKeyFast;
-		bool doDrawInfo;
+		int fps = 60;
+	    int thresholdValue = 127;
+		int thresholdKeyCounter = 0;
+		bool thresholdKeyFast = false;
+		bool doDrawInfo = true;
 
+		string oscAddress = "blob";
 		ofxOscSender sender;
 		void sendOsc(int index, float x, float y, float z);
 
 	    ofxCv::ContourFinder contourFinder;
-		float contourThreshold;
+		float contourThreshold = 2.0; //127.0;
+		float contourMin = 1.0; //10.0;
+		float contourMax = 250.0; //150.0;
 		ofxCv::TrackingColorMode trackingColorMode;
 		ofColor targetColor;
+
+		ofFile file;
+		ofBuffer buff;
+		string hostname = "RPi";
 
 };

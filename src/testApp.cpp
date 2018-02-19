@@ -4,20 +4,27 @@ using namespace cv;
 using namespace ofxCv;
 
 void testApp::setup() {
-    oscAddress = "blob";
-    hostName = "nfgRPi";//getHostName();
-    doDrawInfo  = true;
+	file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
+	if (file) {
+		buff = file.readToBuffer();
+		hostname = buff.getText();
+	} else {
+		hostname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+		ofStringReplace(hostname, "-", "");
+		ofStringReplace(hostname, "\n", "");
+		ofStringReplace(hostname, "\r", "");
+		buff.set(hostname.c_str(), hostname.size());
+		ofBufferToFile("hostname.txt", buff);
+	}
+	cout << hostname;
+
     width = ofGetWidth();
     height = ofGetHeight();
-    thresholdKeyCounter = 0;
-    thresholdKeyFast = false;    
 
     cam.setup(width, height, false); //(w, h, color/gray);
     //cam.setISO(300); // 100 - 800
     cam.setExposureMode((MMAL_PARAM_EXPOSUREMODE_T) 0); // 0 = off, 1 = auto
-    // * * *
     //cam.setFrameRate ???
-    // * * *
 
     //ofSetLogLevel(OF_LOG_VERBOSE);
     //ofSetLogLevel("ofThread", OF_LOG_ERROR);
@@ -25,14 +32,12 @@ void testApp::setup() {
 
     //consoleListener.setup(this);
 
-    ofSetFrameRate(60);
-    thresholdValue = 127; //127;
-    contourThreshold = 2;//127.0;
+    ofSetFrameRate(fps);
 
     sender.setup(HOST, PORT);
 
-    contourFinder.setMinAreaRadius(1);//10);
-    contourFinder.setMaxAreaRadius(250);//150);
+    contourFinder.setMinAreaRadius(contourMin);
+    contourFinder.setMaxAreaRadius(contourMax);
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
 }
@@ -42,7 +47,7 @@ void testApp::update() {
 
     if(!frame.empty()) {
         //autothreshold(frameProcessed);        
-        threshold(frame,frameProcessed,thresholdValue,255,0);    
+        threshold(frame, frameProcessed, thresholdValue, 255, 0);    
         contourFinder.setThreshold(contourThreshold);
         contourFinder.findContours(frameProcessed);
     }
@@ -51,7 +56,7 @@ void testApp::update() {
 void testApp::draw() {
     ofSetColor(255);
     if(!frame.empty()){
-        drawMat(frameProcessed,0,0);
+        drawMat(frameProcessed, 0, 0);
 
         ofSetLineWidth(2);
         //contourFinder.draw();
