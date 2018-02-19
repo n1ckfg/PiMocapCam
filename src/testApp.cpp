@@ -4,25 +4,6 @@ using namespace cv;
 using namespace ofxCv;
 
 void testApp::setup() {
-    hostName = "RPi"
-    /*
-    file.open(ofToDataPath("hostName.txt"), ofFile::ReadWrite, false);
-    if (file) {
-        buff = file.readToBuffer();
-        hostName = buff.getText();
-    } else {
-        hostName += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
-        ofStringReplace(hostName, "-", "");
-        ofStringReplace(hostName, "\n", "");
-        ofStringReplace(hostName, "\r", "");
-        buff.set(hostName.c_str(), hostName.size());
-        ofBufferToFile("hostName.txt", buff);
-    }
-    cout << hostName;
-    */
-    hostName += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
-    ofStringReplace(hostName, "-", "");
-
     oscAddress = "blob";
     //hostName = "nfgRPi";//getHostName();
     doDrawInfo  = true;
@@ -54,6 +35,26 @@ void testApp::setup() {
     contourFinder.setMaxAreaRadius(250);//150);
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
+
+    hostName = "RPi";
+    /*
+    file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
+    if (file) {
+        buff = file.readToBuffer();
+        hostName = buff.getText();
+    } else {
+        hostName += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+        ofStringReplace(hostName, "-", "");
+        ofStringReplace(hostName, "\n", "");
+        ofStringReplace(hostName, "\r", "");
+        buff.set(hostName.c_str(), hostName.size());
+        ofBufferToFile("hostname.txt", buff);
+    }
+    cout << hostName;
+    */
+    hostName += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+    ofStringReplace(hostName, "-", "");
+
 }
 
 void testApp::update() {
