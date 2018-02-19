@@ -6,15 +6,11 @@ using namespace ofxCv;
 void testApp::setup() {
     width = ofGetWidth();
     height = ofGetHeight();
-    fps = 60;
 	thresholdValue = 127;
 	thresholdKeyCounter = 0;
 	thresholdKeyFast = false;
 	doDrawInfo = true;
 	oscAddress = "blob";
-	contourThreshold = 2.0; //127.0;
-	contourMin = 1.0; //10.0;
-	contourMax = 250.0; //150.0;
 	hostname = "RPi";
 
 	file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
@@ -42,12 +38,12 @@ void testApp::setup() {
 
     //consoleListener.setup(this);
 
-    ofSetFrameRate(fps);
+    ofSetFrameRate(60);
 
     sender.setup(HOST, PORT);
 
-    contourFinder.setMinAreaRadius(contourMin);
-    contourFinder.setMaxAreaRadius(contourMax);
+    contourFinder.setMinAreaRadius(1.0); //10.0;
+    contourFinder.setMaxAreaRadius(250.0); //150.0;
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
 }
@@ -58,7 +54,7 @@ void testApp::update() {
     if(!frame.empty()) {
         //autothreshold(frameProcessed);        
         threshold(frame, frameProcessed, thresholdValue, 255, 0);    
-        contourFinder.setThreshold(contourThreshold);
+        contourFinder.setThreshold(2.0); //127.0;
         contourFinder.findContours(frameProcessed);
     }
 }

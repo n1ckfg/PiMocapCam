@@ -26,7 +26,6 @@ class testApp : public ofBaseApp {
 		
         int width;
 		int height;
-		int fps;
 	    int thresholdValue;
 		int thresholdKeyCounter;
 		bool thresholdKeyFast;
@@ -37,9 +36,6 @@ class testApp : public ofBaseApp {
 		void sendOsc(int index, float x, float y, float z);
 
 	    ofxCv::ContourFinder contourFinder;
-		float contourThreshold;
-		float contourMin;
-		float contourMax;
 		ofxCv::TrackingColorMode trackingColorMode;
 		ofColor targetColor;
 
