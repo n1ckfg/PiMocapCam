@@ -4,8 +4,23 @@ using namespace cv;
 using namespace ofxCv;
 
 void testApp::setup() {
+    hostname = "RPi"
+    file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
+    if (file) {
+        buff = file.readToBuffer();
+        hostname = buff.getText();
+    } else {
+        hostname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+        ofStringReplace(hostname, "-", "");
+        ofStringReplace(hostname, "\n", "");
+        ofStringReplace(hostname, "\r", "");
+        buff.set(hostname.c_str(), hostname.size());
+        ofBufferToFile("hostname.txt", buff);
+    }
+    //cout << hostname;
+
     oscAddress = "blob";
-    hostName = "nfgRPi";//getHostName();
+    //hostName = "nfgRPi";//getHostName();
     doDrawInfo  = true;
     width = ofGetWidth();
     height = ofGetHeight();

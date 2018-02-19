@@ -41,4 +41,8 @@ class testApp : public ofBaseApp {
 		ofxCv::TrackingColorMode trackingColorMode;
 		ofColor targetColor;
 
+		string hostname;
+		ofFile file;
+		ofBuffer buff;
+		
 };
