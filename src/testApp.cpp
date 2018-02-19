@@ -4,33 +4,20 @@ using namespace cv;
 using namespace ofxCv;
 
 void testApp::setup() {
+    oscAddress = "blob";
+    hostName = "nfgRPi";//getHostName();
+    doDrawInfo  = true;
     width = ofGetWidth();
     height = ofGetHeight();
-	thresholdValue = 127;
-	thresholdKeyCounter = 0;
-	thresholdKeyFast = false;
-	doDrawInfo = true;
-	oscAddress = "blob";
-	hostname = "RPi";
-
-	file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
-	if (file) {
-		buff = file.readToBuffer();
-		hostname = buff.getText();
-	} else {
-		hostname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
-		ofStringReplace(hostname, "-", "");
-		ofStringReplace(hostname, "\n", "");
-		ofStringReplace(hostname, "\r", "");
-		buff.set(hostname.c_str(), hostname.size());
-		ofBufferToFile("hostname.txt", buff);
-	}
-	cout << hostname;
+    thresholdKeyCounter = 0;
+    thresholdKeyFast = false;    
 
     cam.setup(width, height, false); //(w, h, color/gray);
     //cam.setISO(300); // 100 - 800
     cam.setExposureMode((MMAL_PARAM_EXPOSUREMODE_T) 0); // 0 = off, 1 = auto
+    // * * *
     //cam.setFrameRate ???
+    // * * *
 
     //ofSetLogLevel(OF_LOG_VERBOSE);
     //ofSetLogLevel("ofThread", OF_LOG_ERROR);
@@ -39,11 +26,13 @@ void testApp::setup() {
     //consoleListener.setup(this);
 
     ofSetFrameRate(60);
+    thresholdValue = 127; //127;
+    contourThreshold = 2;//127.0;
 
     sender.setup(HOST, PORT);
 
-    contourFinder.setMinAreaRadius(1.0); //10.0;
-    contourFinder.setMaxAreaRadius(250.0); //150.0;
+    contourFinder.setMinAreaRadius(1);//10);
+    contourFinder.setMaxAreaRadius(250);//150);
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
 }
@@ -53,23 +42,23 @@ void testApp::update() {
 
     if(!frame.empty()) {
         //autothreshold(frameProcessed);        
-        threshold(frame, frameProcessed, thresholdValue, 255, 0);    
-        contourFinder.setThreshold(2.0); //127.0;
+        threshold(frame,frameProcessed,thresholdValue,255,0);    
+        contourFinder.setThreshold(contourThreshold);
         contourFinder.findContours(frameProcessed);
     }
 }
 
 void testApp::draw() {
     ofSetColor(255);
-    if (!frame.empty()) {
-        drawMat(frameProcessed, 0, 0);
+    if(!frame.empty()){
+        drawMat(frameProcessed,0,0);
 
         ofSetLineWidth(2);
         //contourFinder.draw();
 
         ofNoFill();
         int n = contourFinder.size();
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {
             ofSetColor(cyanPrint);
             float circleRadius;
             ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));

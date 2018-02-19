@@ -24,6 +24,8 @@ class testApp : public ofBaseApp {
 		ofxCvPiCam cam;
 		cv::Mat frame, frameProcessed;
 		
+		string oscAddress;
+        string hostName;
         int width;
 		int height;
 	    int thresholdValue;
@@ -31,16 +33,12 @@ class testApp : public ofBaseApp {
 		bool thresholdKeyFast;
 		bool doDrawInfo;
 
-		string oscAddress;
 		ofxOscSender sender;
 		void sendOsc(int index, float x, float y, float z);
 
 	    ofxCv::ContourFinder contourFinder;
+		float contourThreshold;
 		ofxCv::TrackingColorMode trackingColorMode;
 		ofColor targetColor;
-
-		string hostname;
-		ofFile file;
-		ofBuffer buff;
 
 };
