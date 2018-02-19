@@ -37,7 +37,7 @@ void testApp::setup() {
     trackingColorMode = TRACK_COLOR_RGB;
 
     hostName = "RPi";
-    /*
+    
     file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
     if (file) {
         buff = file.readToBuffer();
@@ -51,10 +51,6 @@ void testApp::setup() {
         ofBufferToFile("hostname.txt", buff);
     }
     cout << hostName;
-    */
-    hostName += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
-    ofStringReplace(hostName, "-", "");
-
 }
 
 void testApp::update() {
