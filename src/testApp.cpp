@@ -4,6 +4,19 @@ using namespace cv;
 using namespace ofxCv;
 
 void testApp::setup() {
+    width = ofGetWidth();
+    height = ofGetHeight();
+    fps = 60;
+	thresholdValue = 127;
+	thresholdKeyCounter = 0;
+	thresholdKeyFast = false;
+	doDrawInfo = true;
+	oscAddress = "blob";
+	contourThreshold = 2.0; //127.0;
+	contourMin = 1.0; //10.0;
+	contourMax = 250.0; //150.0;
+	hostname = "RPi";
+
 	file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
 	if (file) {
 		buff = file.readToBuffer();
@@ -17,9 +30,6 @@ void testApp::setup() {
 		ofBufferToFile("hostname.txt", buff);
 	}
 	cout << hostname;
-
-    width = ofGetWidth();
-    height = ofGetHeight();
 
     cam.setup(width, height, false); //(w, h, color/gray);
     //cam.setISO(300); // 100 - 800
@@ -55,7 +65,7 @@ void testApp::update() {
 
 void testApp::draw() {
     ofSetColor(255);
-    if(!frame.empty()){
+    if (!frame.empty()) {
         drawMat(frameProcessed, 0, 0);
 
         ofSetLineWidth(2);
@@ -63,7 +73,7 @@ void testApp::draw() {
 
         ofNoFill();
         int n = contourFinder.size();
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             ofSetColor(cyanPrint);
             float circleRadius;
             ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));

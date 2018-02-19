@@ -26,25 +26,25 @@ class testApp : public ofBaseApp {
 		
         int width;
 		int height;
-		int fps = 60;
-	    int thresholdValue = 127;
-		int thresholdKeyCounter = 0;
-		bool thresholdKeyFast = false;
-		bool doDrawInfo = true;
+		int fps;
+	    int thresholdValue;
+		int thresholdKeyCounter;
+		bool thresholdKeyFast;
+		bool doDrawInfo;
 
-		string oscAddress = "blob";
+		string oscAddress;
 		ofxOscSender sender;
 		void sendOsc(int index, float x, float y, float z);
 
 	    ofxCv::ContourFinder contourFinder;
-		float contourThreshold = 2.0; //127.0;
-		float contourMin = 1.0; //10.0;
-		float contourMax = 250.0; //150.0;
+		float contourThreshold;
+		float contourMin;
+		float contourMax;
 		ofxCv::TrackingColorMode trackingColorMode;
 		ofColor targetColor;
 
+		string hostname;
 		ofFile file;
 		ofBuffer buff;
-		string hostname = "RPi";
 
 };
