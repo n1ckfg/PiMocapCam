@@ -99,8 +99,8 @@ void testApp::sendOsc(int index, float x, float y, float z) {
     m.setAddress("/" + oscAddress);
     m.addStringArg(hostName);
     m.addIntArg(index);
-    m.addFloatArg(x);
-    m.addFloatArg(y);
+    m.addFloatArg(x / (float) width);
+    m.addFloatArg(y / (float) height);
     //m.addFloatArg(z);
     sender.sendMessage(m);
 }
