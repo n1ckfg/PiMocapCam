@@ -19,7 +19,7 @@ void ofApp::setup() {
 
     ofSetVerticalSync(false);    
     ofSetFrameRate(90);
-    thresholdValue = settings.getValue("threshold", 0); // default 127;
+    thresholdValue = settings.getValue("settings:threshold", 0); // default 127;
     contourThreshold = 2.0; // default 127.0;
 
     sender.setup(HOST, PORT);
