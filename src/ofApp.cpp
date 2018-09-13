@@ -4,6 +4,8 @@ using namespace cv;
 using namespace ofxCv;
 
 void ofApp::setup() {
+    settingsLoaded = settings.loadFile("settings.xml");
+
     oscAddress = "blob";
     doDrawInfo  = true;
     width = ofGetWidth();
@@ -17,7 +19,8 @@ void ofApp::setup() {
 
     ofSetVerticalSync(false);    
     ofSetFrameRate(90);
-    thresholdValue = 31; // default 127;
+    thresholdValue = 31;
+    if (settingsLoaded) thresholdValue = settings.getValue("threshold", 0); // default 127;
     contourThreshold = 2.0; // default 127.0;
 
     sender.setup(HOST, PORT);

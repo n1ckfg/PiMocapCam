@@ -4,6 +4,7 @@
 #include "ofxCv.h"
 #include "ofxCvPiCam.h"
 #include "ofxOsc.h"
+#include "ofxXmlSettings.h"
 
 #define HOST "Allosaurus.local"
 #define PORT 7110
@@ -21,6 +22,8 @@ class ofApp : public ofBaseApp {
 		string hostName;
 		ofFile file;
 		ofBuffer buff;
+		bool settingsLoaded;
+		ofxXmlSettings settings;
 
 		ofxCvPiCam cam;
 		cv::Mat frame, frameProcessed;
