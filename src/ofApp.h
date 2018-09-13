@@ -3,12 +3,12 @@
 #include "ofMain.h"
 #include "ofxCv.h"
 #include "ofxCvPiCam.h"
-//#include "TerminalListener.h"
 #include "ofxOsc.h"
+
 #define HOST "Allosaurus.local"
 #define PORT 7110
 
-class testApp : public ofBaseApp {
+class ofApp : public ofBaseApp {
 
     public:
         void setup();
@@ -17,9 +17,6 @@ class testApp : public ofBaseApp {
 		
 		void keyPressed(int key);
 		void keyReleased(int key);
-	    //void testApp::onCharacterReceived(KeyListenerEventData& e);		
-		//TerminalListener consoleListener;
-        //string getHostName();
 
 		string hostName;
 		ofFile file;
@@ -37,7 +34,7 @@ class testApp : public ofBaseApp {
 		bool doDrawInfo;
 
 		ofxOscSender sender;
-		void sendOsc(int index, float x, float y, float z);
+		void sendOsc(int index, float x, float y);
 
 	    ofxCv::ContourFinder contourFinder;
 		float contourThreshold;

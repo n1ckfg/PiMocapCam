@@ -1,38 +1,29 @@
-#include "testApp.h"
+#include "ofApp.h"
 
 using namespace cv;
 using namespace ofxCv;
 
-void testApp::setup() {
+void ofApp::setup() {
     oscAddress = "blob";
-    //hostName = "nfgRPi";//getHostName();
     doDrawInfo  = true;
     width = ofGetWidth();
     height = ofGetHeight();
     thresholdKeyCounter = 0;
     thresholdKeyFast = false;    
 
-    cam.setup(width, height, false); //(w, h, color/gray);
-    //cam.setISO(300); // 100 - 800
+    cam.setup(width, height, false); // color/gray;
     cam.setExposureMode((MMAL_PARAM_EXPOSUREMODE_T) 0); // 0 = off, 1 = auto
-    // * * *
-    //cam.setFrameRate ???
-    // * * *
+    //cam.setFrameRate // not implemented in ofxCvPiCam
 
-    //ofSetLogLevel(OF_LOG_VERBOSE);
-    //ofSetLogLevel("ofThread", OF_LOG_ERROR);
     ofSetVerticalSync(false);    
-
-    //consoleListener.setup(this);
-
     ofSetFrameRate(90);
-    thresholdValue = 31; //127;
-    contourThreshold = 2;//127.0;
+    thresholdValue = 31; // default 127;
+    contourThreshold = 2.0; // default 127.0;
 
     sender.setup(HOST, PORT);
 
-    contourFinder.setMinAreaRadius(1);//10);
-    contourFinder.setMaxAreaRadius(250);//150);
+    contourFinder.setMinAreaRadius(1); // default 10;
+    contourFinder.setMaxAreaRadius(250); // default 150;
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
 
@@ -53,18 +44,18 @@ void testApp::setup() {
     cout << hostName;
 }
 
-void testApp::update() {
+void ofApp::update() {
     frame = cam.grab();
 
     if(!frame.empty()) {
         //autothreshold(frameProcessed);        
-        threshold(frame,frameProcessed,thresholdValue,255,0);    
+        threshold(frame, frameProcessed, thresholdValue, 255, 0);    
         contourFinder.setThreshold(contourThreshold);
         contourFinder.findContours(frameProcessed);
     }
 }
 
-void testApp::draw() {
+void ofApp::draw() {
     ofSetColor(255);
     if(!frame.empty()){
         drawMat(frameProcessed,0,0);
@@ -81,7 +72,7 @@ void testApp::draw() {
             ofCircle(circleCenter, circleRadius);
             ofCircle(circleCenter, 1);
 
-            sendOsc(i, circleCenter.x, circleCenter.y, circleRadius);
+            sendOsc(i, circleCenter.x, circleCenter.y);
         }
     }
 
@@ -94,18 +85,17 @@ void testApp::draw() {
    
 }
 
-void testApp::sendOsc(int index, float x, float y, float z) {
+void ofApp::sendOsc(int index, float x, float y) {
     ofxOscMessage m;
     m.setAddress("/" + oscAddress);
     m.addStringArg(hostName);
     m.addIntArg(index);
     m.addFloatArg(x / (float) width);
     m.addFloatArg(y / (float) height);
-    //m.addFloatArg(z);
     sender.sendMessage(m);
 }
 
-void testApp::keyPressed(int key) {
+void ofApp::keyPressed(int key) {
     thresholdKeyCounter++;
     if (thresholdKeyCounter > 10) thresholdKeyFast = true;
 
@@ -129,25 +119,7 @@ void testApp::keyPressed(int key) {
     if (thresholdValue > 255) thresholdValue = 255;
 }
 
-void testApp::keyReleased(int key) {
+void ofApp::keyReleased(int key) {
     thresholdKeyFast = false;
     thresholdKeyCounter = 0;
 }
-
-/*
-string testApp::getHostName() {
-    FILE* stream = popen("hostName", "r");  
-    ostringstream output;  
-
-    while(!feof(stream) && !ferror(stream)) {  
-        char buf[128];  
-        int bytesRead = fread(buf, 1, 128, stream);  
-        output.write(buf, bytesRead);  
-    }  
-    return ofToString(output.str());  
-}
-*/
-
-//void testApp::onCharacterReceived(KeyListenerEventData& e) {
-       //keyPressed((int) e.character);
-//}
