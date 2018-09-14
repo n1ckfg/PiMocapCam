@@ -19,31 +19,33 @@ void ofApp::setup() {
 
     ofSetVerticalSync(false);    
     ofSetFrameRate(90);
+    host = settings.getValue("settings:host", ""); // hostname;
+    port = settings.getValue("settings:port", 0); // default 7110;
     thresholdValue = settings.getValue("settings:threshold", 0); // default 127;
     contourThreshold = 2.0; // default 127.0;
 
-    sender.setup(HOST, PORT);
+    sender.setup(host, port);
 
     contourFinder.setMinAreaRadius(1); // default 10;
     contourFinder.setMaxAreaRadius(250); // default 150;
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
 
-    hostName = "RPi";
+    compname = "RPi";
     
-    file.open(ofToDataPath("hostname.txt"), ofFile::ReadWrite, false);
+    file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
     if (file) {
         buff = file.readToBuffer();
-        hostName = buff.getText();
+        compname = buff.getText();
     } else {
-        hostName += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
-        ofStringReplace(hostName, "-", "");
-        ofStringReplace(hostName, "\n", "");
-        ofStringReplace(hostName, "\r", "");
-        buff.set(hostName.c_str(), hostName.size());
-        ofBufferToFile("hostname.txt", buff);
+        compname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+        ofStringReplace(compname, "-", "");
+        ofStringReplace(compname, "\n", "");
+        ofStringReplace(compname, "\r", "");
+        buff.set(compname.c_str(), compname.size());
+        ofBufferToFile("compname.txt", buff);
     }
-    cout << hostName;
+    cout << compname;
 }
 
 void ofApp::update() {
@@ -90,7 +92,7 @@ void ofApp::draw() {
 void ofApp::sendOsc(int index, float x, float y) {
     ofxOscMessage m;
     m.setAddress("/" + oscAddress);
-    m.addStringArg(hostName);
+    m.addStringArg(compname);
     m.addIntArg(index);
     m.addFloatArg(x / (float) width);
     m.addFloatArg(y / (float) height);

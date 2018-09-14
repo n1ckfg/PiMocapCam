@@ -6,9 +6,6 @@
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
 
-#define HOST "Allosaurus.local"
-#define PORT 7110
-
 class ofApp : public ofBaseApp {
 
     public:
@@ -19,10 +16,11 @@ class ofApp : public ofBaseApp {
 		void keyPressed(int key);
 		void keyReleased(int key);
 
-		string hostName;
+		string compname;
+		string host;
+		int port;
 		ofFile file;
 		ofBuffer buff;
-		bool settingsLoaded;
 		ofxXmlSettings settings;
 
 		ofxCvPiCam cam;
