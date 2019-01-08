@@ -27,7 +27,8 @@ class ofApp : public ofBaseApp {
 
 		ofxCvPiCam cam;
 		cv::Mat frame, frameProcessed;
-		
+		ofImage gray;
+
 		string oscAddress;
         int width;
 		int height;
