@@ -1,21 +1,24 @@
 import oscP5.*;
 import netP5.*;
 
-PImage img1, img2, newImg;
+byte[] videoBytes1, videoBytes2;
 ArrayList<String> hostList;
 int numHosts = 2;
 
 String ipNumber = "127.0.0.1";
 int sendPort = 9998;
 int receivePort = 7110;
+int datagramSize = 1000000;
+
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
-void oscSetup() {
-  img1 = createImage(640, 480, RGB);
-  img2 = createImage(640, 480, RGB);
-  newImg = createImage(640, 480, RGB);
-  oscP5 = new OscP5(this, receivePort);
+void oscSetup() {  
+  OscProperties op = new OscProperties();
+  op.setListeningPort(receivePort);
+  op.setDatagramSize(datagramSize);
+  oscP5 = new OscP5(this, op);
+  
   myRemoteLocation = new NetAddress(ipNumber, sendPort);
   hostList = new ArrayList<String>();
 }
@@ -25,25 +28,18 @@ void oscEvent(OscMessage msg) {
   if (msg.checkAddrPattern("/video") && msg.checkTypetag("sb")) {
     
     String hostname = msg.get(0).stringValue();
-    byte[] videoBytes = msg.get(1).blobValue();
-    updateNewImg(videoBytes);
+    byte[] bytes = msg.get(1).blobValue();
     
-    println(hostname + " " + videoBytes[1] + " " + videoBytes.length);
+    println(hostname + " " + bytes.length);
     
     if (hostList.size() >= numHosts) {
       if (hostname.equals(hostList.get(0))) {
-        img1 = newImg;
+        videoBytes1 = bytes;
       } else {
-        img2 = newImg;
+        videoBytes2 = bytes;
       }
     } else {
       hostList.add(hostname);
     }
   }
-}
-
-void updateNewImg(byte[] bytes) {
-  newImg.loadPixels();
-  // TODO convert image
-  newImg.updatePixels();
 }
