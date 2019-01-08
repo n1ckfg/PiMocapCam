@@ -14,7 +14,21 @@ void ofApp::setup() {
 
     gray.allocate(width, height, OF_IMAGE_GRAYSCALE);
     cam.setup(width, height, false); // color/gray;
-    cam.setExposureMode((MMAL_PARAM_EXPOSUREMODE_T) 0); // 0 = off, 1 = auto
+
+    camSharpness = settings.getValue("settings:sharpness", 0); 
+    camContrast = settings.getValue("settings:contrast", 0); 
+    camBrightness = settings.getValue("settings:brightness", 0); 
+    camIso = settings.getValue("settings:iso", 0); 
+    camExposureMode = settings.getValue("settings:exposure_mode", 0); 
+    camShutterSpeed = settings.getValue("settings:shutter_speed", 0);    
+
+    cam.setSharpness(camSharpness);
+    cam.setContrast(camContrast);
+    cam.setBrightness(camBrightness);
+    cam.setISO(camIso);
+    cam.setExposureMode((MMAL_PARAM_EXPOSUREMODE_T) camExposureMode);
+    cam.setShutterSpeed(camShutterSpeed);
+
     //cam.setFrameRate // not implemented in ofxCvPiCam
 
     ofSetVerticalSync(false);    
