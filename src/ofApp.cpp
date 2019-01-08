@@ -104,9 +104,9 @@ void ofApp::sendOsc(int index, float x, float y) {
     m.setAddress("/" + oscAddress);
     m.addStringArg(compname);
     if (video) {
-        std::string str;
-        str.append(reinterpret_cast<const char*>(frame.data));
-        m.addStringArg(str);
+        ofBuffer txBuffer;
+        txBuffer.set((const char*) frame.data, sizeof(frame.data));
+        m.addBlobArg(txBuffer);
     } else {
         m.addIntArg(index);
         m.addFloatArg(x / (float) width);
