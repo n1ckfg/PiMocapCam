@@ -22,6 +22,7 @@ class ofApp : public ofBaseApp {
 		bool video;
 		ofFile file;
 		ofBuffer buff;
+		ofBuffer txBuffer;
 		ofxXmlSettings settings;
 
 		ofxCvPiCam cam;
