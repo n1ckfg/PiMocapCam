@@ -6,11 +6,6 @@ using namespace ofxCv;
 void ofApp::setup() {
     settings.loadFile("settings.xml");
 
-    if (video) {
-        oscAddress = "video";
-    } else {
-        oscAddress = "blob";
-    }
     doDrawInfo  = true;
     width = ofGetWidth();
     height = ofGetHeight();
@@ -27,6 +22,11 @@ void ofApp::setup() {
     port = settings.getValue("settings:port", 0); // default 7110;
     thresholdValue = settings.getValue("settings:threshold", 0); // default 127;
     video = (bool) settings.getValue("settings:video", 0); // default false;
+    if (video) {
+        oscAddress = "video";
+    } else {
+        oscAddress = "blob";
+    }
     contourThreshold = 2.0; // default 127.0;
 
     sender.setup(host, port);
@@ -104,9 +104,9 @@ void ofApp::sendOsc(int index, float x, float y) {
     m.setAddress("/" + oscAddress);
     m.addStringArg(compname);
     if (video) {
-        //std::string str;
-        //str.append(reinterpret_cast<const char*>(frame.data));
-        //m.addStringArg(str);
+        std::string str;
+        str.append(reinterpret_cast<const char*>(frame.data));
+        m.addStringArg(str);
     } else {
         m.addIntArg(index);
         m.addFloatArg(x / (float) width);
