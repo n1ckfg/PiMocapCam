@@ -6,7 +6,11 @@ using namespace ofxCv;
 void ofApp::setup() {
     settings.loadFile("settings.xml");
 
-    oscAddress = "blob";
+    if (video) {
+        oscAddress = "video";
+    } else {
+        oscAddress = "blob";
+    }
     doDrawInfo  = true;
     width = ofGetWidth();
     height = ofGetHeight();
