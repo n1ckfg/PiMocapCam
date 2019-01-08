@@ -56,15 +56,11 @@ void ofApp::setup() {
 void ofApp::update() {
     frame = cam.grab();
 
-    if(!frame.empty()) {
-        if (video) {
-            //
-        } else {
-            //autothreshold(frameProcessed);        
-            threshold(frame, frameProcessed, thresholdValue, 255, 0);    
-            contourFinder.setThreshold(contourThreshold);
-            contourFinder.findContours(frameProcessed);
-        }
+    if(!frame.empty() && !video) {
+        //autothreshold(frameProcessed);        
+        threshold(frame, frameProcessed, thresholdValue, 255, 0);    
+        contourFinder.setThreshold(contourThreshold);
+        contourFinder.findContours(frameProcessed);
     }
 }
 
@@ -107,9 +103,9 @@ void ofApp::sendOsc(int index, float x, float y) {
     m.setAddress("/" + oscAddress);
     m.addStringArg(compname);
     if (video) {
-        std::string str;
-        str.append(reinterpret_cast<const char*>(frame.data));
-        m.addStringArg(str);
+        //std::string str;
+        //str.append(reinterpret_cast<const char*>(frame.data));
+        //m.addStringArg(str);
     } else {
         m.addIntArg(index);
         m.addFloatArg(x / (float) width);
