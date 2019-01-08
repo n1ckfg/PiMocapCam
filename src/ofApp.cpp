@@ -68,9 +68,9 @@ void ofApp::draw() {
     ofSetColor(255);
     if(!frame.empty()) {
         if (video) {
-            //
+            drawMat(frame, 0, 0);
         } else {
-            drawMat(frameProcessed,0,0);
+            drawMat(frameProcessed, 0, 0);
 
             ofSetLineWidth(2);
             //contourFinder.draw();
