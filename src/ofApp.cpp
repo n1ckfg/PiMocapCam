@@ -103,7 +103,7 @@ void ofApp::sendOsc(int index, float x, float y) {
     m.setAddress("/" + oscAddress);
     m.addStringArg(compname);
     if (video) {
-        m.addStringArg(frame(src.begin<unsigned char>(), src.end<unsigned char>()));
+        m.addStringArg(frame.data);
     } else {
         m.addIntArg(index);
         m.addFloatArg(x / (float) width);
