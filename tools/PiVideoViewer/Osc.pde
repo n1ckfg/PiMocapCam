@@ -22,12 +22,12 @@ void oscSetup() {
 
 // Receive message example
 void oscEvent(OscMessage msg) {
-  if (msg.checkAddrPattern("/video") && msg.checkTypetag("ss")) {
+  if (msg.checkAddrPattern("/video") && msg.checkTypetag("sb")) {
     
     String hostname = msg.get(0).stringValue();
-    String videoString = msg.get(1).stringValue();
+    byte[] videoBytes = msg.get(1).blobValue()
     
-    println(hostname + " " + videoString + " " + videoString.length());
+    println(hostname + " " + videoBytes + " " + videoBytes.length);
     
     if (hostList.size() >= numHosts) {
       if (hostname.equals(hostList.get(0))) {
