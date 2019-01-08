@@ -104,8 +104,10 @@ void ofApp::sendOsc(int index, float x, float y) {
     m.setAddress("/" + oscAddress);
     m.addStringArg(compname);
     if (video) {
-        unsigned char* output = frame.data;
-        txBuffer.set((const char*) output, sizeof(output));
+        toOf(frame, gray);
+        gray.update();
+        gray.draw(0,0);
+        ofSaveImage(gray.getPixelsRef(), txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
         m.addBlobArg(txBuffer);
     } else {
         m.addIntArg(index);
