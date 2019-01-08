@@ -104,7 +104,7 @@ void ofApp::sendOsc(int index, float x, float y) {
     m.setAddress("/" + oscAddress);
     m.addStringArg(compname);
     if (video) {
-        unsigned char * output = &frame.data;
+        unsigned char* output = frame.data;
         txBuffer.set((const char*) output, sizeof(output));
         m.addBlobArg(txBuffer);
     } else {
