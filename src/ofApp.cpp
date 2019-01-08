@@ -12,6 +12,7 @@ void ofApp::setup() {
     thresholdKeyCounter = 0;
     thresholdKeyFast = false;    
 
+    gray.allocate(width, height, OF_IMAGE_GRAYSCALE);
     cam.setup(width, height, false); // color/gray;
     cam.setExposureMode((MMAL_PARAM_EXPOSUREMODE_T) 0); // 0 = off, 1 = auto
     //cam.setFrameRate // not implemented in ofxCvPiCam
