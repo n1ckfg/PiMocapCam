@@ -3,4 +3,5 @@
     <host>Allosaurus.local</host>
     <port>7110</port>
     <threshold>31</threshold>
+    <video>false</video>
 </settings>

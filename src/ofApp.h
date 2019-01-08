@@ -19,6 +19,7 @@ class ofApp : public ofBaseApp {
 		string compname;
 		string host;
 		int port;
+		bool video;
 		ofFile file;
 		ofBuffer buff;
 		ofxXmlSettings settings;

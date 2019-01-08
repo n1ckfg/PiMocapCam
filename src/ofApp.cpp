@@ -22,6 +22,7 @@ void ofApp::setup() {
     host = settings.getValue("settings:host", ""); // hostname;
     port = settings.getValue("settings:port", 0); // default 7110;
     thresholdValue = settings.getValue("settings:threshold", 0); // default 127;
+    video = (bool) settings.getValue("settings:video", 0)
     contourThreshold = 2.0; // default 127.0;
 
     sender.setup(host, port);
