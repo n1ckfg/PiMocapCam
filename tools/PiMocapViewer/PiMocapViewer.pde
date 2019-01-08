@@ -90,4 +90,6 @@ void draw() {
   for (int i=0; i<strokes.size(); i++) {
     strokes.get(i).run();
   }
+  
+  surface.setTitle("" + frameRate);
 }

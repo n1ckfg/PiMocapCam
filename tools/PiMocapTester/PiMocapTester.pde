@@ -26,4 +26,6 @@ void draw() {
   }
   
   if (death && random(1.0) < birthOdds) dots.add(new AutoDot(dots.size()));
+
+  surface.setTitle("" + frameRate);
 }

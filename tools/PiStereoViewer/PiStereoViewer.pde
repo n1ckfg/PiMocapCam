@@ -1,3 +1,4 @@
+
 PImage img1, img2;
 
 void setup() {
@@ -5,6 +6,8 @@ void setup() {
   img1 = createImage(640, 480, RGB);
   img2 = createImage(640, 480, RGB);
   
+  setupStereo();
+  setupShaders();
   oscSetup();
 }
 
@@ -15,5 +18,5 @@ void draw() {
   image(img1, 0, 0);
   image(img2, width/2, 0);
   
-  surface.setTitle("" + frameRate);  
+  surface.setTitle("" + frameRate);
 }
