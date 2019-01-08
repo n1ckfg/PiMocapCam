@@ -69,6 +69,7 @@ void ofApp::draw() {
     if(!frame.empty()) {
         if (video) {
             drawMat(frame, 0, 0);
+            sendOsc(0, 0, 0);
         } else {
             drawMat(frameProcessed, 0, 0);
 
