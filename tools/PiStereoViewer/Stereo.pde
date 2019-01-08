@@ -16,7 +16,7 @@ StereoSGBM stereoSGBM; // semi-global block matching
 StereoBM stereoBM; // block matching
 Mat left, right, disparity, depthMat;
 int depthW = 640;
-int depthH = 240;
+int depthH = 480;
 int depthScale = 2;
 
 void setupStereo() {
@@ -43,41 +43,38 @@ void setupStereo() {
   11. boolean mode : true enables MODE_HH (high quality), false is MODE_SGBM (low quality).
   */
   //stereoSGBM =  new StereoSGBM(0, 32, 3, 100, 1000, 1, 0, 5, 50, 2, false); // OpenCV doc recs
-  stereoSGBM =  new StereoSGBM(0, 32, 3, 100, 1000, 1, 0, 5, 400, 200, false); // OpenCV doc example
-  //stereoSGBM =  new StereoSGBM(0, 32, 3, 128, 256, 20, 16, 1, 100, 20, true); // Processing example
+  //stereoSGBM =  new StereoSGBM(0, 32, 3, 100, 1000, 1, 0, 5, 400, 200, false); // OpenCV doc example
+  stereoSGBM =  new StereoSGBM(0, 32, 3, 128, 256, 20, 16, 1, 100, 20, true); // Processing example
   
   stereoBM = new StereoBM();
 }
 
-void drawStereo() {
-  if (leap.hasImages()) {
-    for (Image camera : leap.getImages()) {
-      if (camera.isLeft()) {
-        camL = camera;
-        pgL.beginDraw();
-        if (maskInput) {
-          shaderSetTexture(shader_thresh, "tex0", camera);
-          pgL.filter(shader_thresh);
-        } else {
-          pgL.image(camera, 0, 0, pgL.width, pgL.height);
-        }
-        pgL.filter(shader_blur);
-        pgL.endDraw();
-        ocvL.loadImage(pgL); // Left camera
-      } else {
-        pgR.beginDraw();
-        if (maskInput) {
-          shaderSetTexture(shader_thresh, "tex0", camera);
-          pgR.filter(shader_thresh);
-        } else {
-          pgR.image(camera, 0, 0, pgR.width, pgR.height);
-        }
-        pgR.filter(shader_blur);
-        pgR.endDraw();
-        ocvR.loadImage(pgR); // Right camera
-      }
+void drawStereo(PImage camL, PImage camR) {
+  if (camL != null && camR != null) {
+    // left
+    pgL.beginDraw();
+    if (maskInput) {
+      shaderSetTexture(shader_thresh, "tex0", camL);
+      pgL.filter(shader_thresh);
+    } else {
+      pgL.image(camL, 0, 0, pgL.width, pgL.height);
     }
+    pgL.filter(shader_blur);
+    pgL.endDraw();
+    ocvL.loadImage(pgL); // Left camera
+    // right
+    pgR.beginDraw();
+    if (maskInput) {
+      shaderSetTexture(shader_thresh, "tex0", camR);
+      pgR.filter(shader_thresh);
+    } else {
+      pgR.image(camR, 0, 0, pgR.width, pgR.height);
+    }
+    pgR.filter(shader_blur);
+    pgR.endDraw();
+    ocvR.loadImage(pgR); // Right camera
   }
+  
   left = ocvL.getGray();
   right = ocvR.getGray();
   disparity = OpenCV.imitate(left);
