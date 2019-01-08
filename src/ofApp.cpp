@@ -53,31 +53,39 @@ void ofApp::update() {
     frame = cam.grab();
 
     if(!frame.empty()) {
-        //autothreshold(frameProcessed);        
-        threshold(frame, frameProcessed, thresholdValue, 255, 0);    
-        contourFinder.setThreshold(contourThreshold);
-        contourFinder.findContours(frameProcessed);
+        if (video) {
+            //
+        } else {
+            //autothreshold(frameProcessed);        
+            threshold(frame, frameProcessed, thresholdValue, 255, 0);    
+            contourFinder.setThreshold(contourThreshold);
+            contourFinder.findContours(frameProcessed);
+        }
     }
 }
 
 void ofApp::draw() {
     ofSetColor(255);
-    if(!frame.empty()){
-        drawMat(frameProcessed,0,0);
+    if(!frame.empty()) {
+        if (video) {
+            //
+        } else {
+            drawMat(frameProcessed,0,0);
 
-        ofSetLineWidth(2);
-        //contourFinder.draw();
+            ofSetLineWidth(2);
+            //contourFinder.draw();
 
-        ofNoFill();
-        int n = contourFinder.size();
-        for(int i = 0; i < n; i++) {
-            ofSetColor(cyanPrint);
-            float circleRadius;
-            ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
-            ofCircle(circleCenter, circleRadius);
-            ofCircle(circleCenter, 1);
+            ofNoFill();
+            int n = contourFinder.size();
+            for(int i = 0; i < n; i++) {
+                ofSetColor(cyanPrint);
+                float circleRadius;
+                ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
+                ofCircle(circleCenter, circleRadius);
+                ofCircle(circleCenter, 1);
 
-            sendOsc(i, circleCenter.x, circleCenter.y);
+                sendOsc(i, circleCenter.x, circleCenter.y);
+            }
         }
     }
 
@@ -94,9 +102,13 @@ void ofApp::sendOsc(int index, float x, float y) {
     ofxOscMessage m;
     m.setAddress("/" + oscAddress);
     m.addStringArg(compname);
-    m.addIntArg(index);
-    m.addFloatArg(x / (float) width);
-    m.addFloatArg(y / (float) height);
+    if (video) {
+        //
+    } else {
+        m.addIntArg(index);
+        m.addFloatArg(x / (float) width);
+        m.addFloatArg(y / (float) height);
+    }
     sender.sendMessage(m);
 }
 
