@@ -7,8 +7,8 @@
     <video_quality>4</video_quality>
     <sharpness>50</sharpness>
 	<contrast>0</contrast>
-	<brightness>0</brightness>
-	<iso>800</iso>
+	<brightness>50</brightness>
+	<iso>1800</iso>
 	<exposure_mode>0</exposure_mode>
     <exposure_compensation>10</exposure_compensation>
 	<shutter_speed>15</shutter_speed>
