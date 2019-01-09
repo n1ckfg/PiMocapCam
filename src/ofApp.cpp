@@ -105,18 +105,11 @@ void ofApp::update() {
             }
        	}
 
-    	if (blobs) {
+    	if (blobs || contours) {
 	        //autothreshold(frameProcessed);        
 	        threshold(frame, frameProcessed, thresholdValue, 255, 0);    
 	        contourFinder.setThreshold(contourThreshold);
 	        contourFinder.findContours(frameProcessed);
-    	}
-
-    	if (contours) {
-            //autothreshold(frameProcessed);        
-            threshold(frame, frameProcessed, thresholdValue, 255, 0);    
-            contourFinder.setThreshold(contourThreshold);
-            contourFinder.findContours(frameProcessed);
     	}
 
     	if (brightestPixel) {
@@ -130,14 +123,20 @@ void ofApp::draw() {
     ofBackground(0);
     
     if(!frame.empty()) {
+        if (debug) {
+            if (video && !blobs && !contours) {
+                drawMat(frame, 0, 0);
+            } else if (!video && (blobs || contours)) {
+                drawMat(frameProcessed, 0, 0);
+            }
+        }
+
         if (video) {
-            if (debug) drawMat(frame, 0, 0);
             sendOscVideo();
         } 
 
         if (blobs) {
             if (debug) {
-            	drawMat(frameProcessed, 0, 0);
             	ofSetLineWidth(2);
             	//contourFinder.draw();
             	ofNoFill();
@@ -158,7 +157,6 @@ void ofApp::draw() {
 
         if (contours) {
             if (debug) {
-                drawMat(frameProcessed, 0, 0);
                 ofSetLineWidth(2);
                 contourFinder.draw();
                 ofNoFill();
@@ -244,7 +242,9 @@ void ofApp::sendOscContours(int index, vector<float> points) {
     m.setAddress("/contour");
     m.addStringArg(compname);
 
-   	// TODO
+   	for (int i=0; i<points.size(); i++) {
+        m.addFloatArt(points[i]);
+    }
 
     sender.sendMessage(m);
 }
