@@ -4,10 +4,10 @@
     <port>7110</port>
     <threshold>30</threshold>
     <video>1</video>
-    <video_quality>1</video_quality>
+    <video_quality>5</video_quality>
     <sharpness>100</sharpness>
-	<contrast>10</contrast>
-	<brightness>55</brightness>
+	<contrast>50</contrast>
+	<brightness>50</brightness>
 	<iso>800</iso>
 	<exposure_mode>0</exposure_mode>
 	<shutter_speed>0</shutter_speed>
