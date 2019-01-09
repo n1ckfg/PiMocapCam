@@ -115,7 +115,8 @@ void ofApp::draw() {
                 }
 
                 ofNoFill();
-                //ofDrawEllipse(maxBrightnessX, maxBrightnessY, 40, 40);
+                ofVec2f circleCenter = ofVec2f(maxBrightnessX, maxBrightnessY);
+                ofCircle(circleCenter, 40);
 
                 sendOsc(0, maxBrightnessX, maxBrightnessY);
             } else {
