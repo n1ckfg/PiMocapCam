@@ -3,7 +3,7 @@ import peasy.PeasyCam;
 PeasyCam cam;
 
 float dotSize = 20;
-Locator loc = new Locator(32);
+Locator loc = new Locator(4);
 ArrayList<Stroke> strokes;
 Stroke newStroke;
 boolean clicked = false;
@@ -11,7 +11,7 @@ boolean isDrawing = false;
 
 void setup() {
   size(640, 480, P3D);
-  frameRate(90);
+  frameRate(60);
   cam =  new PeasyCam(this, width/2, height/2, 400, 50);
   strokes = new ArrayList<Stroke>();
   newStroke = new Stroke();

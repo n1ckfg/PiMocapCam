@@ -19,7 +19,7 @@ class Locator {
   void run() {
     float x =   (dot1.x + dot2.x)/2;
     float y = (dot1.y + dot2.y)/2;
-    float z = PVector.dist(dot1, dot2) * -2;
+    float z = PVector.dist(dot1, dot2) * -10;
     PVector newSample = new PVector(x, y, z);
     if (samples.size() > 1) {
       PVector lastSample = samples.get(samples.size()-1);

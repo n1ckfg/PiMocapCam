@@ -23,7 +23,7 @@ void oscEvent(OscMessage msg) {
   if (msg.checkAddrPattern("/blob") && msg.checkTypetag("siff")) {
     
     String hostname = msg.get(0).stringValue();
-    //int index = msg.get(1).intValue();
+    int index = msg.get(1).intValue();
     float x = msg.get(2).floatValue();
     float y =  msg.get(3).floatValue();
     
