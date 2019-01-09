@@ -25,8 +25,8 @@ void draw() {
   fill(0,127,255,127);
   ellipse(dot2.x, dot2.y, 20, 20);
     
-  for (Stroke s : strokes) {
-    s.draw();
+  for (int i=0; i<strokes.size(); i++) {
+    strokes.get(i).draw();
   }
   
   surface.setTitle("" + frameRate);

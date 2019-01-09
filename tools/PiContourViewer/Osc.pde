@@ -9,7 +9,7 @@ int numHosts = 2;
 String ipNumber = "127.0.0.1";
 int sendPort = 9998;
 int receivePort = 7110;
-int datagramSize = 100000;
+int datagramSize = 1000000;
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
@@ -24,11 +24,10 @@ void oscSetup() {
 
 // Receive message example
 void oscEvent(OscMessage msg) {
-  if (msg.checkAddrPattern("/contour") && msg.checkTypetag("sib")) {
-    
+  if (msg.checkAddrPattern("/contour") && msg.checkTypetag("sib")) {    
     String hostname = msg.get(0).stringValue();
     int index = msg.get(1).intValue();
-    byte[] readBytes = msg.get(1).blobValue();
+    byte[] readBytes = msg.get(2).blobValue();
    
    ArrayList<PVector> points = new ArrayList<PVector>();
    for (int i = 0; i < readBytes.length; i += 8) { //+=16) { 
@@ -42,7 +41,9 @@ void oscEvent(OscMessage msg) {
      //float z = asFloat(bytesZ);
      //float w = asFloat(bytesW);
      if (!Float.isNaN(x) && !Float.isNaN(y)) { // && !Float.isNaN(z)) {
-       points.add(new PVector(x, y));
+       PVector p = new PVector(x, y);
+       points.add(p);
+       println(p.x + " " + p.y);
      }
    }
     
@@ -63,8 +64,8 @@ void oscEvent(OscMessage msg) {
     } else {
       strokes.add(newStroke);
     }
-   
-    //println(hostname + " " + " " + x + " " + y);
+
+    println(hostname + " " + " " + index);
     
     if (hostList.size() >= numHosts) {
       if (hostname.equals(hostList.get(0))) {
