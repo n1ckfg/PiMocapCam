@@ -8,6 +8,7 @@ int numHosts = 2;
 
 String ipNumber = "127.0.0.1";
 int sendPort = 9998;
+int receivePort = 7110;
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
