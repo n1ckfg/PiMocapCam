@@ -3,7 +3,7 @@
     <host>Allosaurus.local</host>
     <port>7110</port>
     <!-- * -->
-    <debug>0</debug>
+    <debug>1</debug>
     <brightest_pixel>0</brightest_pixel>
     <blobs>1</blobs>
     <contours>0</contours>
