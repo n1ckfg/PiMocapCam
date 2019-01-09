@@ -1,7 +1,7 @@
 PImage img1, img2;
 
 void setup() {
-  size(1280, 480, FX2D);
+  size(1280, 480, P2D);
   img1 = createImage(640, 480, RGB);
   img2 = createImage(640, 480, RGB);
   

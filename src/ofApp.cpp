@@ -120,7 +120,8 @@ void ofApp::sendOsc(int index, float x, float y) {
     m.addStringArg(compname);
     if (video) {
         toOf(frame, gray.getPixelsRef());
-        ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+        // BEST, HIGH, MEDIUM, LOW, WORST ...OSC can't send a binary blob over ~65K
+        ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
         m.addBlobArg(txBuffer);
     } else {
         m.addIntArg(index);
