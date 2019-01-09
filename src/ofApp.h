@@ -62,7 +62,7 @@ class ofApp : public ofBaseApp {
 		ofxOscSender sender;
 		void sendOscVideo();
 		void sendOscBlobs(int index, float x, float y);
-		void sendOscContours(int index, float x, float y);
+		void sendOscContours(int index, vector<float> points);
 		void sendOscPixel(float x, float y);
 
 	    ofxCv::ContourFinder contourFinder;

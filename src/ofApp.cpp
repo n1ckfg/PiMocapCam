@@ -113,7 +113,10 @@ void ofApp::update() {
     	}
 
     	if (contours) {
-    		// TODO
+            //autothreshold(frameProcessed);        
+            threshold(frame, frameProcessed, thresholdValue, 255, 0);    
+            contourFinder.setThreshold(contourThreshold);
+            contourFinder.findContours(frameProcessed);
     	}
 
     	if (brightestPixel) {
@@ -154,7 +157,25 @@ void ofApp::draw() {
         }
 
         if (contours) {
-        	// TODO
+            if (debug) {
+                drawMat(frameProcessed, 0, 0);
+                ofSetLineWidth(2);
+                contourFinder.draw();
+                ofNoFill();
+            }
+            
+            int n = contourFinder.size();
+            for (int i = 0; i < n; i++) {
+                vector<float> points;
+                ofPolyline line = toOf(contourFinder.getPolyline(i));
+                vector<ofPoint> cvPoints = line.getVertices();
+                for(int i=0; i<cvPoints.size(); i++) {
+                    points.push_back(cvPoints[i].x);
+                    points.push_back(cvPoints[i].y);
+                }
+
+                sendOscContours(i, points);
+            }        
         }
            
         if (brightestPixel) {
@@ -218,7 +239,7 @@ void ofApp::sendOscBlobs(int index, float x, float y) {
     sender.sendMessage(m);
 }
 
-void ofApp::sendOscContours(int index, float x, float y) {
+void ofApp::sendOscContours(int index, vector<float> points) {
     ofxOscMessage m;
     m.setAddress("/contour");
     m.addStringArg(compname);

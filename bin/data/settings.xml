@@ -7,7 +7,7 @@
     <debug>1</debug>
     <brightest_pixel>0</brightest_pixel>
     <blobs>0</blobs>
-    <contours>0</contours>
+    <contours>1</contours>
     <video>1</video>
     <!-- * -->
     <video_quality>4</video_quality>
