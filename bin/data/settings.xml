@@ -6,9 +6,9 @@
     <video>1</video>
     <video_quality>4</video_quality>
     <sharpness>50</sharpness>
-	<contrast>50</contrast>
-	<brightness>70</brightness>
+	<contrast>0</contrast>
+	<brightness>50</brightness>
 	<iso>800</iso>
 	<exposure_mode>0</exposure_mode>
-	<shutter_speed>0</shutter_speed>
+	<shutter_speed>24</shutter_speed>
 </settings>
