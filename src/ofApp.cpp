@@ -243,7 +243,7 @@ void ofApp::sendOscContours(int index, vector<float> points) {
     m.addStringArg(compname);
 
    	for (int i=0; i<points.size(); i++) {
-        m.addFloatArt(points[i]);
+        m.addFloatArg(points[i]);
     }
 
     sender.sendMessage(m);
