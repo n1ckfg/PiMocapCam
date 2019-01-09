@@ -8,8 +8,8 @@
     <sharpness>50</sharpness>
 	<contrast>10</contrast>
 	<brightness>50</brightness>
-	<iso>300</iso>
-	<exposure_mode>10</exposure_mode>
-    <exposure_compensation>100</exposure_compensation>
+	<iso>800</iso>
+	<exposure_mode>0</exposure_mode>
+    <exposure_compensation>10</exposure_compensation>
 	<shutter_speed>0</shutter_speed>
 </settings>
