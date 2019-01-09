@@ -6,7 +6,7 @@ using namespace ofxCv;
 void ofApp::setup() {
     settings.loadFile("settings.xml");
 
-    doDrawInfo  = true;
+    //doDrawInfo  = true;
     width = ofGetWidth();
     height = ofGetHeight();
     thresholdKeyCounter = 0;
