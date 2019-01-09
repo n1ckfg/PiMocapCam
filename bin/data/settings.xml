@@ -10,6 +10,6 @@
 	<brightness>50</brightness>
 	<iso>800</iso>
 	<exposure_mode>0</exposure_mode>
-    <exposure_compensation>5</exposure_compensation>
-	<shutter_speed>30</shutter_speed>
+    <exposure_compensation>10</exposure_compensation>
+	<shutter_speed>15</shutter_speed>
 </settings>
