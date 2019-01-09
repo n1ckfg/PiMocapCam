@@ -19,8 +19,13 @@ class ofApp : public ofBaseApp {
 		string compname;
 		string host;
 		int port;
+
+		bool debug;
 		bool video;
 		bool brightestPixel;
+		bool blobs;
+		bool contours;
+
 		ofFile file;
 		ofBuffer buff;
 		ofBuffer txBuffer;
@@ -43,16 +48,19 @@ class ofApp : public ofBaseApp {
 		// 0 off, 1 auto, 2 night, 3 night preview, 4 backlight, 5 spotlight, 6 sports, 7, snow, 8 beach, 9 very long, 10 fixed fps, 11 antishake, 12 fireworks, 13 max
 		int camExposureMode; // 0 to 13, default 0
 
-		string oscAddress;
+		//string oscAddress;
         int width;
 		int height;
 	    int thresholdValue;
 		int thresholdKeyCounter;
 		bool thresholdKeyFast;
-		bool doDrawInfo;
+		//bool doDrawInfo;
 
 		ofxOscSender sender;
-		void sendOsc(int index, float x, float y);
+		void sendOscVideo();
+		void sendOscBlobs(int index, float x, float y);
+		void sendOscContours(int index, float x, float y);
+		void sendOscPixel(float x, float y);
 
 	    ofxCv::ContourFinder contourFinder;
 		float contourThreshold;

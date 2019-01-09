@@ -38,18 +38,13 @@ void ofApp::setup() {
     host = settings.getValue("settings:host", ""); // hostname;
     port = settings.getValue("settings:port", 0); // default 7110;
     thresholdValue = settings.getValue("settings:threshold", 0); // default 127;
+    
+    debug = (bool) settings.getValue("settings:debug", 0); // default false;
     video = (bool) settings.getValue("settings:video", 0); // default false;
+    blobs = (bool) settings.getValue("settings:blobs", 0); // default false;
+    contours = (bool) settings.getValue("settings:contours", 0); // default false;
     brightestPixel = (bool) settings.getValue("settings:brightest_pixel", 0); // default false;
 
-    if (video) {
-        oscAddress = "video";
-    } else {
-        if (brightestPixel) {
-            oscAddress = "pixel";
-        } else {
-            oscAddress = "blob";
-        }
-    }
     contourThreshold = 2.0; // default 127.0;
 
     sender.setup(host, port);
@@ -79,68 +74,111 @@ void ofApp::setup() {
 void ofApp::update() {
     frame = cam.grab();
 
-    if(!frame.empty() && !video && !brightestPixel) {
-        //autothreshold(frameProcessed);        
-        threshold(frame, frameProcessed, thresholdValue, 255, 0);    
-        contourFinder.setThreshold(contourThreshold);
-        contourFinder.findContours(frameProcessed);
+    if (!frame.empty()) {
+    	if (video) {
+	        toOf(frame, gray.getPixelsRef());
+	        switch(videoQuality) {
+	            case 5:
+	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+	                break;
+	            case 4:
+	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+	                break;
+	            case 3:
+	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+	                break;
+	            case 2:
+	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+	                break;
+	            case 1:
+	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+	                break;
+	        }
+       	}
+
+    	if (blobs) {
+	        //autothreshold(frameProcessed);        
+	        threshold(frame, frameProcessed, thresholdValue, 255, 0);    
+	        contourFinder.setThreshold(contourThreshold);
+	        contourFinder.findContours(frameProcessed);
+    	}
+
+    	if (contours) {
+    		//
+    	}
+
+    	if (brightestPixel) {
+    		toOf(frame, gray.getPixelsRef());
+    	}
     }
 }
 
 void ofApp::draw() {
     ofSetColor(255);
+    ofBackground(0);
+    
     if(!frame.empty()) {
         if (video) {
-            drawMat(frame, 0, 0);
-            sendOsc(0, 0, 0);
-        } else {
-            if (brightestPixel) {
-                // https://openframeworks.cc/ofBook/chapters/image_processing_computer_vision.html
-                toOf(frame, gray.getPixelsRef());
-                ofBackground(0);
-                float maxBrightness = 0; 
-                float maxBrightnessX = 0; 
-                float maxBrightnessY = 0;
+            if (debug) drawMat(frame, 0, 0);
+            sendOscVideo();
+        } 
 
-                for (int y=0; y<height; y++) {
-                    for (int x=0; x<width; x++) {
-                        ofColor colorAtXY = gray.getColor(x, y);
-                        float brightnessOfColorAtXY = colorAtXY.getBrightness();
-                        if (brightnessOfColorAtXY > maxBrightness) {
-                            maxBrightness = brightnessOfColorAtXY;
-                            maxBrightnessX = x;
-                            maxBrightnessY = y;
-                        }
+        if (blobs) {
+            if (debug) {
+            	drawMat(frameProcessed, 0, 0);
+            	ofSetLineWidth(2);
+            	//contourFinder.draw();
+            	ofNoFill();
+            }
+            int n = contourFinder.size();
+            for (int i = 0; i < n; i++) {
+                float circleRadius;
+                ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
+                if (debug) {
+                	ofSetColor(cyanPrint);
+                	ofCircle(circleCenter, circleRadius);
+                	ofCircle(circleCenter, 1);
+                }
+
+                sendOscBlobs(i, circleCenter.x, circleCenter.y);
+            }
+        }
+
+        if (contours) {
+        	// TODO
+        }
+           
+        if (brightestPixel) {
+        	// this mostly useful as a performance baseline
+            // https://openframeworks.cc/ofBook/chapters/image_processing_computer_vision.html
+            float maxBrightness = 0; 
+            float maxBrightnessX = 0; 
+            float maxBrightnessY = 0;
+            int skip = 2;
+
+            for (int y=0; y<height - skip; y += skip) {
+                for (int x=0; x<width - skip; x += skip) {
+                    ofColor colorAtXY = gray.getColor(x, y);
+                    float brightnessOfColorAtXY = colorAtXY.getBrightness();
+                    if (brightnessOfColorAtXY > maxBrightness && brightnessOfColorAtXY > thresholdValue) {
+                        maxBrightness = brightnessOfColorAtXY;
+                        maxBrightnessX = x;
+                        maxBrightnessY = y;
                     }
                 }
-
-                ofNoFill();
-                ofVec2f circleCenter = ofVec2f(maxBrightnessX, maxBrightnessY);
-                ofCircle(circleCenter, 40);
-
-                sendOsc(0, maxBrightnessX, maxBrightnessY);
-            } else {
-                drawMat(frameProcessed, 0, 0);
-
-                ofSetLineWidth(2);
-                //contourFinder.draw();
-
-                ofNoFill();
-                int n = contourFinder.size();
-                for (int i = 0; i < n; i++) {
-                    ofSetColor(cyanPrint);
-                    float circleRadius;
-                    ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
-                    ofCircle(circleCenter, circleRadius);
-                    ofCircle(circleCenter, 1);
-
-                    sendOsc(i, circleCenter.x, circleCenter.y);
-                }
             }
+
+            if (debug) {
+            	ofNoFill();
+            	ofVec2f circleCenter = ofVec2f(maxBrightnessX, maxBrightnessY);
+            	ofCircle(circleCenter, 40);
+            }
+
+            sendOscPixel(maxBrightnessX, maxBrightnessY);
         }
     }
 
-    if (doDrawInfo) {
+    if (debug) {
         stringstream info;
         info << "FPS: " << ofGetFrameRate() << "\n";
         //info << "Camera Resolution: " << cam.width << "x" << cam.height << " @ "<< "xx" <<"FPS"<< "\n";
@@ -149,35 +187,46 @@ void ofApp::draw() {
    
 }
 
-void ofApp::sendOsc(int index, float x, float y) {
+void ofApp::sendOscVideo() {
     ofxOscMessage m;
-    m.setAddress("/" + oscAddress);
+    m.setAddress("/video");
+    m.addStringArg(compname);    
+    
+    m.addBlobArg(txBuffer);
+    
+    sender.sendMessage(m);
+}
+
+void ofApp::sendOscBlobs(int index, float x, float y) {
+    ofxOscMessage m;
+    m.setAddress("/blob");
     m.addStringArg(compname);
-    if (video) {
-        toOf(frame, gray.getPixelsRef());
-        switch(videoQuality) {
-            case 5:
-                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
-                break;
-            case 4:
-                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
-                break;
-            case 3:
-                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
-                break;
-            case 2:
-                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
-                break;
-            case 1:
-                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
-                break;
-        }
-        m.addBlobArg(txBuffer);
-    } else {
-        m.addIntArg(index);
-        m.addFloatArg(x / (float) width);
-        m.addFloatArg(y / (float) height);
-    }
+    
+    m.addIntArg(index);
+    m.addFloatArg(x / (float) width);
+    m.addFloatArg(y / (float) height);
+
+    sender.sendMessage(m);
+}
+
+void ofApp::sendOscContours(int index, float x, float y) {
+    ofxOscMessage m;
+    m.setAddress("/contour");
+    m.addStringArg(compname);
+
+   	// TODO
+
+    sender.sendMessage(m);
+}
+
+void ofApp::sendOscPixel(float x, float y) {
+    ofxOscMessage m;
+    m.setAddress("/pixel");
+    m.addStringArg(compname);
+    
+    m.addFloatArg(x / (float) width);
+    m.addFloatArg(y / (float) height);
+
     sender.sendMessage(m);
 }
 
