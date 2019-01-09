@@ -23,7 +23,6 @@ void ofApp::setup() {
     camExposureMode = settings.getValue("settings:exposure_mode", 0); 
     camExposureCompensation = settings.getValue("settings:exposure_compensation", 0); 
     camShutterSpeed = settings.getValue("settings:shutter_speed", 0);
-    camShutterSpeed = (int) ((1/camShutterSpeed) * 1000000); // setting is in microseconds    
 
     cam.setSharpness(camSharpness);
     cam.setContrast(camContrast);
