@@ -21,6 +21,7 @@ void ofApp::setup() {
     camBrightness = settings.getValue("settings:brightness", 0); 
     camIso = settings.getValue("settings:iso", 0); 
     camExposureMode = settings.getValue("settings:exposure_mode", 0); 
+    camExposureCompensation = settings.getValue("settings:exposure_compensation", 0); 
     camShutterSpeed = settings.getValue("settings:shutter_speed", 0);
     camShutterSpeed = (int) ((1/camShutterSpeed) * 1000000); // setting is in microseconds    
 
@@ -29,6 +30,7 @@ void ofApp::setup() {
     cam.setBrightness(camBrightness);
     cam.setISO(camIso);
     cam.setExposureMode((MMAL_PARAM_EXPOSUREMODE_T) camExposureMode);
+    cam.setExposureCompensation(camExposureCompensation);
     cam.setShutterSpeed(camShutterSpeed);
     //cam.setFrameRate // not implemented in ofxCvPiCam
 
