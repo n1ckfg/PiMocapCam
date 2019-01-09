@@ -6,7 +6,7 @@
     <video>1</video>
     <video_quality>5</video_quality>
     <sharpness>100</sharpness>
-	<contrast>50</contrast>
+	<contrast>0</contrast>
 	<brightness>50</brightness>
 	<iso>800</iso>
 	<exposure_mode>0</exposure_mode>
