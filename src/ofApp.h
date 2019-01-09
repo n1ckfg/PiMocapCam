@@ -28,6 +28,7 @@ class ofApp : public ofBaseApp {
 		ofxCvPiCam cam;
 		cv::Mat frame, frameProcessed;
 		ofImage gray;
+		int videoQuality; // 5 best to 1 worst, default 3 medium
 
 		// for more settings, see:
 		// https://github.com/orgicus/ofxCvPiCam/blob/master/example-ofxCvPiCam-allSettings/src/testApp.cpp

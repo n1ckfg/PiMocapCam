@@ -11,6 +11,7 @@ void ofApp::setup() {
     height = ofGetHeight();
     thresholdKeyCounter = 0;
     thresholdKeyFast = false;    
+    videoQuality = settings.getValue("settings:video_quality", 0); 
 
     gray.allocate(width, height, OF_IMAGE_GRAYSCALE);
     cam.setup(width, height, false); // color/gray;
@@ -120,8 +121,23 @@ void ofApp::sendOsc(int index, float x, float y) {
     m.addStringArg(compname);
     if (video) {
         toOf(frame, gray.getPixelsRef());
-        // BEST, HIGH, MEDIUM, LOW, WORST ...OSC can't send a binary blob over ~65K
-        ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+        switch(videoQuality) {
+            case 5:
+                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                break;
+            case 4:
+                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                break;
+            case 3:
+                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                break;
+            case 2:
+                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                break;
+            case 1:
+                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                break;
+        }
         m.addBlobArg(txBuffer);
     } else {
         m.addIntArg(index);

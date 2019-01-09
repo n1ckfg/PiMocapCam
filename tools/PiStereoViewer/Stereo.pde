@@ -17,7 +17,7 @@ StereoBM stereoBM; // block matching
 Mat left, right, disparity, depthMat;
 int depthW = 640;
 int depthH = 480;
-int depthScale = 2;
+int depthScale = 3;
 
 void setupStereo() {
   pgL = createGraphics(depthW/depthScale, depthH/depthScale, P2D);
