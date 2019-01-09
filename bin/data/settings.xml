@@ -15,7 +15,7 @@
 	<contrast>0</contrast>
 	<brightness>50</brightness>
 	<iso>800</iso>
-	<exposure_mode>0</exposure_mode>
+	<exposure_mode>2</exposure_mode>
     <exposure_compensation>0</exposure_compensation>
 	<shutter_speed>100000</shutter_speed>
 </settings>
