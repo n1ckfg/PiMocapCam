@@ -11,6 +11,10 @@ void ofApp::setup() {
     height = ofGetHeight();
     thresholdKeyCounter = 0;
     thresholdKeyFast = false;    
+    ofSetVerticalSync(false);    
+    framerate = settings.getValue("settings:framerate", 0); 
+    ofSetFrameRate(framerate);
+
     videoQuality = settings.getValue("settings:video_quality", 0); 
     videoColor = (bool) settings.getValue("settings:video_color", 0); 
 
@@ -38,8 +42,6 @@ void ofApp::setup() {
     cam.setShutterSpeed(camShutterSpeed);
     //cam.setFrameRate // not implemented in ofxCvPiCam
 
-    ofSetVerticalSync(false);    
-    ofSetFrameRate(90);
     host = settings.getValue("settings:host", ""); 
     port = settings.getValue("settings:port", 0);
     thresholdValue = settings.getValue("settings:threshold", 0); 

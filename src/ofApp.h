@@ -53,6 +53,7 @@ class ofApp : public ofBaseApp {
 		//string oscAddress;
         int width;
 		int height;
+		int framerate;
 	    int thresholdValue; // default 127
 		int thresholdKeyCounter;
 		bool thresholdKeyFast;

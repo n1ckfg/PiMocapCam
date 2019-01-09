@@ -2,6 +2,7 @@
 <settings>
     <host>Allosaurus.local</host>
     <port>7110</port>
+    <framerate>60</framerate>
     <!-- * -->
     <debug>1</debug>
     <brightest_pixel>0</brightest_pixel>
@@ -10,13 +11,13 @@
     <video>1</video>
     <!-- * -->
     <video_quality>4</video_quality>
-    <video_color>1</video_color>
+    <video_color>0</video_color>
     <threshold>30</threshold>
     <sharpness>50</sharpness>
 	<contrast>0</contrast>
 	<brightness>50</brightness>
 	<iso>800</iso>
-	<exposure_mode>2</exposure_mode>
+	<exposure_mode>0</exposure_mode>
     <exposure_compensation>0</exposure_compensation>
 	<shutter_speed>100000</shutter_speed>
 </settings>
