@@ -171,7 +171,7 @@ void ofApp::draw() {
                     points.push_back(cvPoints[i].x);
                     points.push_back(cvPoints[i].y);
                 }
-                contourBuffer.set(s);
+                contourBuffer.set(points);
                 sendOscContours(i);
             }        
         }
