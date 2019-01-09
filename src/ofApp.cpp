@@ -83,24 +83,7 @@ void ofApp::update() {
 
     if (!frame.empty()) {
     	if (video) {
-	        toOf(frame, gray.getPixelsRef());
-	        switch(videoQuality) {
-	            case 5:
-	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
-	                break;
-	            case 4:
-	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
-	                break;
-	            case 3:
-	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
-	                break;
-	            case 2:
-	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
-	                break;
-	            case 1:
-	                ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
-	                break;
-	        }
+            // TODO
        	}
 
     	if (blobs) {
@@ -111,7 +94,7 @@ void ofApp::update() {
     	}
 
     	if (contours) {
-    		//
+    		// TODO
     	}
 
     	if (brightestPixel) {
@@ -198,6 +181,25 @@ void ofApp::sendOscVideo() {
     ofxOscMessage m;
     m.setAddress("/video");
     m.addStringArg(compname);    
+
+    toOf(frame, gray.getPixelsRef());
+    switch(videoQuality) {
+        case 5:
+            ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+            break;
+        case 4:
+            ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+            break;
+        case 3:
+            ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+            break;
+        case 2:
+            ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+            break;
+        case 1:
+            ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+            break;
+    }
     
     m.addBlobArg(txBuffer);
     

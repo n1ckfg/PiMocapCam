@@ -20,7 +20,7 @@ class ofApp : public ofBaseApp {
 		string host; // hostname;
 		int port; // default 7110;
 
-		bool debug; // draw to local screen, default false
+		bool debug; // draw to local screen, default true
 		bool video; // send video image, default false
 		bool brightestPixel; // send brightest pixel, default false
 		bool blobs;  // send blob tracking, default true
