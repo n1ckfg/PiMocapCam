@@ -10,7 +10,7 @@
     <video>1</video>
     <!-- * -->
     <video_quality>4</video_quality>
-    <video_color>1</video_color>
+    <video_color>0</video_color>
     <threshold>30</threshold>
     <sharpness>50</sharpness>
 	<contrast>0</contrast>
