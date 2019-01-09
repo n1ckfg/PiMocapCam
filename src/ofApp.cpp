@@ -79,7 +79,7 @@ void ofApp::setup() {
 void ofApp::update() {
     frame = cam.grab();
 
-    if(!frame.empty() && !video) {
+    if(!frame.empty() && !video && !brightestPixel) {
         //autothreshold(frameProcessed);        
         threshold(frame, frameProcessed, thresholdValue, 255, 0);    
         contourFinder.setThreshold(contourThreshold);
@@ -106,7 +106,7 @@ void ofApp::draw() {
                     for (int x=0; x<width; x++) {
                         ofColor colorAtXY = gray.getColor(x, y);
                         float brightnessOfColorAtXY = colorAtXY.getBrightness();
-                        if (brightnessOfColorAtXY > maxBrightness){
+                        if (brightnessOfColorAtXY > maxBrightness) {
                             maxBrightness = brightnessOfColorAtXY;
                             maxBrightnessX = x;
                             maxBrightnessY = y;
@@ -115,7 +115,7 @@ void ofApp::draw() {
                 }
 
                 ofNoFill();
-                ofDrawEllipse(maxBrightnessX, maxBrightnessY, 40,40);
+                //ofDrawEllipse(maxBrightnessX, maxBrightnessY, 40, 40);
 
                 sendOsc(0, maxBrightnessX, maxBrightnessY);
             } else {
@@ -126,7 +126,7 @@ void ofApp::draw() {
 
                 ofNoFill();
                 int n = contourFinder.size();
-                for(int i = 0; i < n; i++) {
+                for (int i = 0; i < n; i++) {
                     ofSetColor(cyanPrint);
                     float circleRadius;
                     ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
