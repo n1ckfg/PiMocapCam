@@ -17,14 +17,14 @@ class ofApp : public ofBaseApp {
 		void keyReleased(int key);
 
 		string compname;
-		string host;
-		int port;
+		string host; // hostname;
+		int port; // default 7110;
 
-		bool debug;
-		bool video;
-		bool brightestPixel;
-		bool blobs;
-		bool contours;
+		bool debug; // draw to local screen, default false
+		bool video; // send video image, default false
+		bool brightestPixel; // send brightest pixel, default false
+		bool blobs;  // send blob tracking, default true
+		bool contours; // send contours, default false
 
 		ofFile file;
 		ofBuffer buff;
@@ -35,8 +35,9 @@ class ofApp : public ofBaseApp {
 		cv::Mat frame, frameProcessed;
 		ofImage gray;
 		int videoQuality; // 5 best to 1 worst, default 3 medium
+		bool videoColor;
 
-		// for more settings, see:
+		// for more camera settings, see:
 		// https://github.com/orgicus/ofxCvPiCam/blob/master/example-ofxCvPiCam-allSettings/src/testApp.cpp
 
         int camShutterSpeed; // 0 to 330000 in microseconds, default 0
@@ -44,14 +45,15 @@ class ofApp : public ofBaseApp {
     	int camContrast; // -100 to 100, default 0
     	int camBrightness; // 0 to 100, default 50
 		int camIso; // 100 to 800, default 300
-		int camExposureCompensation; /// -10 to 10, default 0;
+		int camExposureCompensation; // -10 to 10, default 0;
+
 		// 0 off, 1 auto, 2 night, 3 night preview, 4 backlight, 5 spotlight, 6 sports, 7, snow, 8 beach, 9 very long, 10 fixed fps, 11 antishake, 12 fireworks, 13 max
 		int camExposureMode; // 0 to 13, default 0
 
 		//string oscAddress;
         int width;
 		int height;
-	    int thresholdValue;
+	    int thresholdValue; // default 127
 		int thresholdKeyCounter;
 		bool thresholdKeyFast;
 		//bool doDrawInfo;
@@ -63,8 +65,10 @@ class ofApp : public ofBaseApp {
 		void sendOscPixel(float x, float y);
 
 	    ofxCv::ContourFinder contourFinder;
-		float contourThreshold;
-		ofxCv::TrackingColorMode trackingColorMode;
-		ofColor targetColor;
+		float contourThreshold;  // default 127
+		float contourMinAreaRadius; // default 10
+		float contourMaxAreaRadius; // default 150
+		ofxCv::TrackingColorMode trackingColorMode; // RGB, HSV, H, HS; default RGB
+		//ofColor targetColor; 
 
 };

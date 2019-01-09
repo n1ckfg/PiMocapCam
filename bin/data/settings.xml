@@ -5,11 +5,12 @@
     <!-- * -->
     <debug>0</debug>
     <brightest_pixel>0</brightest_pixel>
-    <blobs>0</blobs>
+    <blobs>1</blobs>
     <contours>0</contours>
     <video>1</video>
     <!-- * -->
     <video_quality>4</video_quality>
+    <video_color>1</video_color>
     <threshold>30</threshold>
     <sharpness>50</sharpness>
 	<contrast>0</contrast>

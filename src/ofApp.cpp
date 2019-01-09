@@ -12,8 +12,13 @@ void ofApp::setup() {
     thresholdKeyCounter = 0;
     thresholdKeyFast = false;    
     videoQuality = settings.getValue("settings:video_quality", 0); 
+    videoColor = (bool) settings.getValue("settings:video_color", 0); 
 
-    gray.allocate(width, height, OF_IMAGE_GRAYSCALE);
+    if (videoColor) {
+        gray.allocate(width, height, OF_IMAGE_COLOR);
+    } else {
+        gray.allocate(width, height, OF_IMAGE_GRAYSCALE);        
+    }
     cam.setup(width, height, false); // color/gray;
 
     camSharpness = settings.getValue("settings:sharpness", 0); 
@@ -35,22 +40,24 @@ void ofApp::setup() {
 
     ofSetVerticalSync(false);    
     ofSetFrameRate(90);
-    host = settings.getValue("settings:host", ""); // hostname;
-    port = settings.getValue("settings:port", 0); // default 7110;
-    thresholdValue = settings.getValue("settings:threshold", 0); // default 127;
+    host = settings.getValue("settings:host", ""); 
+    port = settings.getValue("settings:port", 0);
+    thresholdValue = settings.getValue("settings:threshold", 0); 
     
-    debug = (bool) settings.getValue("settings:debug", 0); // default false;
-    video = (bool) settings.getValue("settings:video", 0); // default false;
-    blobs = (bool) settings.getValue("settings:blobs", 0); // default false;
-    contours = (bool) settings.getValue("settings:contours", 0); // default false;
-    brightestPixel = (bool) settings.getValue("settings:brightest_pixel", 0); // default false;
+    debug = (bool) settings.getValue("settings:debug", 0);
+    video = (bool) settings.getValue("settings:video", 0); 
+    blobs = (bool) settings.getValue("settings:blobs", 0);
+    contours = (bool) settings.getValue("settings:contours", 0); 
+    brightestPixel = (bool) settings.getValue("settings:brightest_pixel", 0); 
 
-    contourThreshold = 2.0; // default 127.0;
+    contourThreshold = 2.0;
+    contourMinAreaRadius = 1.0;
+    contourMaxAreaRadius = 250.0;
 
     sender.setup(host, port);
 
-    contourFinder.setMinAreaRadius(1); // default 10;
-    contourFinder.setMaxAreaRadius(250); // default 150;
+    contourFinder.setMinAreaRadius(contourMinAreaRadius);
+    contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
 
