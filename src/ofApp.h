@@ -20,6 +20,7 @@ class ofApp : public ofBaseApp {
 		string host;
 		int port;
 		bool video;
+		bool brightestPixel;
 		ofFile file;
 		ofBuffer buff;
 		ofBuffer txBuffer;

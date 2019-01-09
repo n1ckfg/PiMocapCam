@@ -39,10 +39,16 @@ void ofApp::setup() {
     port = settings.getValue("settings:port", 0); // default 7110;
     thresholdValue = settings.getValue("settings:threshold", 0); // default 127;
     video = (bool) settings.getValue("settings:video", 0); // default false;
+    brightestPixel = (bool) settings.getValue("settings:brightest_pixel", 0); // default false;
+
     if (video) {
         oscAddress = "video";
     } else {
-        oscAddress = "blob";
+        if (brightestPixel) {
+            oscAddress = "pixel";
+        } else {
+            oscAddress = "blob";
+        }
     }
     contourThreshold = 2.0; // default 127.0;
 
@@ -88,21 +94,47 @@ void ofApp::draw() {
             drawMat(frame, 0, 0);
             sendOsc(0, 0, 0);
         } else {
-            drawMat(frameProcessed, 0, 0);
+            if (brightestPixel) {
+                // https://openframeworks.cc/ofBook/chapters/image_processing_computer_vision.html
+                toOf(frame, gray.getPixelsRef());
+                ofBackground(0);
+                float maxBrightness = 0; 
+                float maxBrightnessX = 0; 
+                float maxBrightnessY = 0;
 
-            ofSetLineWidth(2);
-            //contourFinder.draw();
+                for (int y=0; y<height; y++) {
+                    for (int x=0; x<width; x++) {
+                        ofColor colorAtXY = gray.getColor(x, y);
+                        float brightnessOfColorAtXY = colorAtXY.getBrightness();
+                        if (brightnessOfColorAtXY > maxBrightness){
+                            maxBrightness = brightnessOfColorAtXY;
+                            maxBrightnessX = x;
+                            maxBrightnessY = y;
+                        }
+                    }
+                }
 
-            ofNoFill();
-            int n = contourFinder.size();
-            for(int i = 0; i < n; i++) {
-                ofSetColor(cyanPrint);
-                float circleRadius;
-                ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
-                ofCircle(circleCenter, circleRadius);
-                ofCircle(circleCenter, 1);
+                ofNoFill();
+                ofDrawEllipse(maxBrightnessX, maxBrightnessY, 40,40);
 
-                sendOsc(i, circleCenter.x, circleCenter.y);
+                sendOsc(0, maxBrightnessX, maxBrightnessY);
+            } else {
+                drawMat(frameProcessed, 0, 0);
+
+                ofSetLineWidth(2);
+                //contourFinder.draw();
+
+                ofNoFill();
+                int n = contourFinder.size();
+                for(int i = 0; i < n; i++) {
+                    ofSetColor(cyanPrint);
+                    float circleRadius;
+                    ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
+                    ofCircle(circleCenter, circleRadius);
+                    ofCircle(circleCenter, 1);
+
+                    sendOsc(i, circleCenter.x, circleCenter.y);
+                }
             }
         }
     }
