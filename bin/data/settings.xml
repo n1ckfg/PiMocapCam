@@ -5,7 +5,7 @@
     <!-- * -->
     <debug>1</debug>
     <brightest_pixel>0</brightest_pixel>
-    <blobs>1</blobs>
+    <blobs>0</blobs>
     <contours>0</contours>
     <video>1</video>
     <!-- * -->
