@@ -164,15 +164,15 @@ void ofApp::draw() {
             
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
-                vector<float> points;
+                string points;
                 ofPolyline line = contourFinder.getPolyline(i);
                 vector<ofPoint> cvPoints = line.getVertices();
                 for(int i=0; i<cvPoints.size(); i++) {
                     points.push_back(cvPoints[i].x);
                     points.push_back(cvPoints[i].y);
                 }
-
-                sendOscContours(i, points);
+                contourBuffer.set(s);
+                sendOscContours(i);
             }        
         }
            
@@ -237,14 +237,13 @@ void ofApp::sendOscBlobs(int index, float x, float y) {
     sender.sendMessage(m);
 }
 
-void ofApp::sendOscContours(int index, vector<float> points) {
+void ofApp::sendOscContours(int index) {
     ofxOscMessage m;
     m.setAddress("/contour");
     m.addStringArg(compname);
-
-   	for (int i=0; i<points.size(); i++) {
-        m.addFloatArg(points[i]);
-    }
+    
+    m.addIntArg(index);
+    m.addBlobArg(contourBuffer);
 
     sender.sendMessage(m);
 }

@@ -28,7 +28,6 @@ void draw() {
   for (Stroke s : strokes) {
     s.draw();
   }
-
   
   surface.setTitle("" + frameRate);
 }
