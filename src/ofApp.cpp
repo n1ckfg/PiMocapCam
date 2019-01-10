@@ -164,7 +164,7 @@ void ofApp::draw() {
             
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
-                vector<char> points_char;
+                string points_char;
                 ofPolyline line = contourFinder.getPolyline(i);
                 vector<ofPoint> cvPoints = line.getVertices();
                 for(int i=0; i<cvPoints.size(); i++) {
@@ -176,11 +176,10 @@ void ofApp::draw() {
                     
                     memcpy(x_char, &x_float, sizeof(float));
                     memcpy(y_char, &y_float, sizeof(float));
-                    points_char.push_back(x_char);
-                    points_char.push_back(y_char);
+                    points_char << x_char;
+                    points_char << y_char;
                 }
-                string points_str(points_char.begin(), points_char.end());
-                contourBuffer.set(points_str);
+                contourBuffer.set(points_char);
                 sendOscContours(i);
             }        
         }
