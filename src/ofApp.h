@@ -66,6 +66,11 @@ class ofApp : public ofBaseApp {
 		void sendOscContours(int index);
 		void sendOscPixel(float x, float y);
 
+	    union u {
+	        float f;
+	        char s[sizeof float];
+	    };
+                
 	    ofxCv::ContourFinder contourFinder;
 		float contourThreshold;  // default 127
 		float contourMinAreaRadius; // default 10
