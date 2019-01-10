@@ -169,9 +169,9 @@ void ofApp::draw() {
                 vector<ofPoint> cvPoints = line.getVertices();
                 for(int i=0; i<cvPoints.size(); i++) {
                     char x[4];
-                    x = (char[]) cvPoints[i].x;
+                    memcpy(x, &cvPoints[i].x;, 4);
                     char y[4];
-                    y = (char[]) cvPoints[i].y;
+                    memcpy(y, &cvPoints[i].y;, 4);
                     points.push_back(x);
                     points.push_back(y);
                 }
