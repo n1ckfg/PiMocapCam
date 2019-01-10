@@ -176,10 +176,11 @@ void ofApp::draw() {
                     
                     memcpy(x_char, &x_float, sizeof(float));
                     memcpy(y_char, &y_float, sizeof(float));
-                    points_char << x_char;
-                    points_char << y_char;
+                    points_char.push_back(x_char);
+                    points_char.push_back(y_char);
                 }
-                contourBuffer.set(points_char);
+                string points_str(points_char.begin(), points_char.end());
+                contourBuffer.set(points_str);
                 sendOscContours(i);
             }        
         }
