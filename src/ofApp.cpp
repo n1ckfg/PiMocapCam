@@ -164,7 +164,7 @@ void ofApp::draw() {
             
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
-                string points;
+                vector<char> points;
                 ofPolyline line = contourFinder.getPolyline(i);
                 vector<ofPoint> cvPoints = line.getVertices();
                 for(int i=0; i<cvPoints.size(); i++) {
