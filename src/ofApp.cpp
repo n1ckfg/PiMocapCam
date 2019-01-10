@@ -168,12 +168,16 @@ void ofApp::draw() {
                 ofPolyline line = contourFinder.getPolyline(i);
                 vector<ofPoint> cvPoints = line.getVertices();
                 for(int i=0; i<cvPoints.size(); i++) {
-                    char x[4];
-                    memcpy(x, &cvPoints[i].x, 4);
-                    char y[4];
-                    memcpy(y, &cvPoints[i].y, 4);
-                    points.push_back(x);
-                    points.push_back(y);
+                    float x_float = cvPoints[i].x;
+                    float y_float = cvPoints[i].y;
+                    
+                    char x_char[sizeof(float)];
+                    char y_char[sizeof(float)];
+                    
+                    memcpy(x_char, &x_float, sizeof(float));
+                    memcpy(y_char, &y_float, sizeof(float));
+                    points.push_back(x_char);
+                    points.push_back(y_char);
                 }
                 contourBuffer.set(points);
                 sendOscContours(i);
