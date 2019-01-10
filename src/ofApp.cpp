@@ -168,8 +168,10 @@ void ofApp::draw() {
                 ofPolyline line = contourFinder.getPolyline(i);
                 vector<ofPoint> cvPoints = line.getVertices();
                 for(int i=0; i<cvPoints.size(); i++) {
-                    char x[4] = (char) &cvPoints[i].x;
-                    char y[4] = (char) &cvPoints[i].y;
+                    char x[4];
+                    x = (char) cvPoints[i].x;
+                    char y[4];
+                    y = (char) cvPoints[i].y;
                     points.push_back(x);
                     points.push_back(y);
                 }
