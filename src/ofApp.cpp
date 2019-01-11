@@ -1,5 +1,4 @@
 #include "ofApp.h"
-#include <algorithm>
 
 using namespace cv;
 using namespace ofxCv;
