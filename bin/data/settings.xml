@@ -4,7 +4,7 @@
     <port>7110</port>
     <framerate>90</framerate>
     <!-- * -->
-    <debug>1</debug>
+    <debug>0</debug>
     <brightest_pixel>0</brightest_pixel>
     <blobs>0</blobs>
     <contours>1</contours>
