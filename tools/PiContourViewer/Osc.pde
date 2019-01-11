@@ -30,15 +30,15 @@ void oscEvent(OscMessage msg) {
     byte[] readColorBytes = msg.get(2).blobValue();
     byte[] readPointsBytes = msg.get(3).blobValue();
    
-    byte[] bytesR = { readPointsBytes[0], readPointsBytes[1], readPointsBytes[2], readPointsBytes[3] };
-    byte[] bytesG = { readPointsBytes[4], readPointsBytes[5], readPointsBytes[6], readPointsBytes[7] };
-    byte[] bytesB = { readPointsBytes[8], readPointsBytes[9], readPointsBytes[10], readPointsBytes[11] };
+    byte[] bytesR = { readColorBytes[0], readColorBytes[1], readColorBytes[2], readColorBytes[3] };
+    byte[] bytesG = { readColorBytes[4], readColorBytes[5], readColorBytes[6], readColorBytes[7] };
+    byte[] bytesB = { readColorBytes[8], readColorBytes[9], readColorBytes[10], readColorBytes[11] };
 
     float r = asFloat(bytesR);
     float g = asFloat(bytesG);
     float b = asFloat(bytesB);
     color c = color(255);
-    if (!Float.isNaN(r) && !Float.isNaN(g)) && !Float.isNaN(b)) {
+    if (!Float.isNaN(r) && !Float.isNaN(g) && !Float.isNaN(b)) {
       c = color(r,g,b);
     }
  

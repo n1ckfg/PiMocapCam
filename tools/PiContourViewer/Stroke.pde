@@ -36,7 +36,7 @@ class Stroke {
   
   void draw() {
     noFill();
-    stroke(255, 127);
+    stroke(col);
     strokeWeight(4);
     beginShape();
     for (PVector p : points) {

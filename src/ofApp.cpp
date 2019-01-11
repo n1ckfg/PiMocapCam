@@ -160,6 +160,7 @@ void ofApp::draw() {
 
             int contourCounter = 0;
             unsigned char * pixels = gray.getPixels();
+            int gw = gray.getWidth();
 
             for (int h=0; h<255; h += int(255/contourSlices)) {
                 contourFinder.setThreshold(h);
@@ -171,10 +172,13 @@ void ofApp::draw() {
                     ofPolyline line = contourFinder.getPolyline(i);
                     vector<ofPoint> cvPoints = line.getVertices();
 
+                    int x = int(cvPoints[j].x);
+                    int y = int(cvPoints[j].y);
+                    ofColor col = pixels[x + y * gw]
                     float colorData[3]; 
-                    colorData[0] = 255;
-                    colorData[1] = 127;
-                    colorData[2] = 0;
+                    colorData[0] = col.r;
+                    colorData[1] = col.g;
+                    colorData[2] = col.b;
                     char const * pColor = reinterpret_cast<char const *>(colorData);
                     std::string colorString(pColor, pColor + sizeof colorData);
                     contourColorBuffer.set(colorString); 
