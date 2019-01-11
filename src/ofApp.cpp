@@ -67,6 +67,7 @@ void ofApp::setup() {
     compname = "RPi";
     
     file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
+    ofBuffer buff;
     if (file) {
         buff = file.readToBuffer();
         compname = buff.getText();
@@ -89,19 +90,19 @@ void ofApp::update() {
             toOf(frame, gray.getPixelsRef());
             switch(videoQuality) {
                 case 5:
-                    ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
                     break;
                 case 4:
-                    ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
                     break;
                 case 3:
-                    ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
                     break;
                 case 2:
-                    ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
                     break;
                 case 1:
-                    ofSaveImage(gray, txBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
                     break;
             }
        	}
@@ -161,6 +162,7 @@ void ofApp::draw() {
             }
 
             int contourCounter = 0;
+            unsigned char * pixels = frame.getPixels();
 
             for (int h=0; h<255; h += int(255/contourSlices)) {
                 contourFinder.setThreshold(h);
@@ -171,15 +173,25 @@ void ofApp::draw() {
                 for (int i = 0; i < n; i++) {
                     ofPolyline line = contourFinder.getPolyline(i);
                     vector<ofPoint> cvPoints = line.getVertices();
-                    float data[cvPoints.size() * 2]; 
+
+                    float colorData[3]; 
+                    colorData[0] = 255;
+                    colorData[1] = 127;
+                    colorData[2] = 0;
+                    char const * p = reinterpret_cast<char const *>(colorData);
+                    std::string colorString(p, p + sizeof colorData);
+                    contourColorBuffer.set(colorString); 
+
+                    float pointsData[cvPoints.size() * 2]; 
                     for (int j=0; j<cvPoints.size(); j++) {
                         int index = j * 2;
-                        data[index] = cvPoints[j].x;
-                        data[index+1] = cvPoints[j].y;
+                        pointsData[index] = cvPoints[j].x;
+                        pointsData[index+1] = cvPoints[j].y;
                     }
-                    char const * p = reinterpret_cast<char const *>(data);
-                    std::string s(p, p + sizeof data);
-                    contourBuffer.set(s); 
+                    char const * p = reinterpret_cast<char const *>(pointsData);
+                    std::string pointsString(p, p + sizeof pointsData);
+                    contourPointsBuffer.set(pointsString); 
+
                     sendOscContours(contourCounter);
                     contourCounter++;
                 }        
@@ -230,7 +242,7 @@ void ofApp::sendOscVideo() {
     m.setAddress("/video");
     m.addStringArg(compname);    
     
-    m.addBlobArg(txBuffer);
+    m.addBlobArg(videoBuffer);
     
     sender.sendMessage(m);
 }
@@ -253,7 +265,8 @@ void ofApp::sendOscContours(int index) {
     m.addStringArg(compname);
     
     m.addIntArg(index);
-    m.addBlobArg(contourBuffer);
+    m.addBlobArg(contourColorBuffer);
+    m.addBlobArg(contourPointsBuffer);
 
     sender.sendMessage(m);
 }

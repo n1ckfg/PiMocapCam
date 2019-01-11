@@ -27,9 +27,9 @@ class ofApp : public ofBaseApp {
 		bool contours; // send contours, default false
 
 		ofFile file;
-		ofBuffer buff;
-		ofBuffer txBuffer;
-		ofBuffer contourBuffer;
+		ofBuffer videoBuffer;
+		ofBuffer contourColorBuffer;
+		ofBuffer contourPointsBuffer;
 		ofxXmlSettings settings;
 
 		ofxCvPiCam cam;
