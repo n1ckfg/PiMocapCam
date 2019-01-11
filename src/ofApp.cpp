@@ -86,8 +86,9 @@ void ofApp::update() {
     frame = cam.grab();
 
     if (!frame.empty()) {
+        toOf(frame, gray.getPixelsRef());
+
     	if (video) {
-            toOf(frame, gray.getPixelsRef());
             switch(videoQuality) {
                 case 5:
                     ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
@@ -106,10 +107,6 @@ void ofApp::update() {
                     break;
             }
        	}
-
-    	if (brightestPixel) {
-    		toOf(frame, gray.getPixelsRef());
-    	}
     }
 }
 
@@ -162,7 +159,7 @@ void ofApp::draw() {
             }
 
             int contourCounter = 0;
-            unsigned char * pixels = frame.getPixels();
+            unsigned char * pixels = gray.getPixels();
 
             for (int h=0; h<255; h += int(255/contourSlices)) {
                 contourFinder.setThreshold(h);

@@ -4,21 +4,32 @@ class Stroke {
   int index;
   int timestamp;
   int lifespan = 1000;
+  color col;
   
   Stroke() {
     index = 0;
+    col = color(255);
     points = new ArrayList<PVector>();
     timestamp = millis();
   }
   
   Stroke(int idx) {
     index = idx;
+    col = color(255);
     points = new ArrayList<PVector>();
     timestamp = millis();
   }
   
   Stroke(int idx, ArrayList<PVector> pts) {
     index = idx;
+    col = color(255);
+    points = pts;
+    timestamp = millis();
+  }
+
+  Stroke(int idx, color c, ArrayList<PVector> pts) {
+    index = idx;
+    col = c;
     points = pts;
     timestamp = millis();
   }

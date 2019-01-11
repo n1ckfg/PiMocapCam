@@ -24,30 +24,43 @@ void oscSetup() {
 
 // Receive message example
 void oscEvent(OscMessage msg) {
-  if (msg.checkAddrPattern("/contour") && msg.checkTypetag("sib")) {    
+  if (msg.checkAddrPattern("/contour") && msg.checkTypetag("sibb")) {    
     String hostname = msg.get(0).stringValue();
     int index = msg.get(1).intValue();
-    byte[] readBytes = msg.get(2).blobValue();
+    byte[] readColorBytes = msg.get(2).blobValue();
+    byte[] readPointsBytes = msg.get(3).blobValue();
    
-   ArrayList<PVector> points = new ArrayList<PVector>();
-   for (int i = 0; i < readBytes.length; i += 8) { //+=16) { 
-     byte[] bytesX = { readBytes[i], readBytes[i+1], readBytes[i+2], readBytes[i+3] };
-     byte[] bytesY = { readBytes[i+4], readBytes[i+5], readBytes[i+6], readBytes[i+7] };
-     //byte[] bytesZ = { readBytes[i+8], readBytes[i+9], readBytes[i+10], readBytes[i+11] };
-     //byte[] bytesW = { readBytes[i+12], readBytes[i+13], readBytes[i+14], readBytes[i+15] };
+    byte[] bytesR = { readPointsBytes[0], readPointsBytes[1], readPointsBytes[2], readPointsBytes[3] };
+    byte[] bytesG = { readPointsBytes[4], readPointsBytes[5], readPointsBytes[6], readPointsBytes[7] };
+    byte[] bytesB = { readPointsBytes[8], readPointsBytes[9], readPointsBytes[10], readPointsBytes[11] };
 
-     float x = asFloat(bytesX);
-     float y = asFloat(bytesY);
-     //float z = asFloat(bytesZ);
-     //float w = asFloat(bytesW);
-     if (!Float.isNaN(x) && !Float.isNaN(y)) { // && !Float.isNaN(z)) {
-       PVector p = new PVector(x, y);
-       points.add(p);
-       println(p.x + " " + p.y);
-     }
-   }
+    float r = asFloat(bytesR);
+    float g = asFloat(bytesG);
+    float b = asFloat(bytesB);
+    color c = color(255);
+    if (!Float.isNaN(r) && !Float.isNaN(g)) && !Float.isNaN(b)) {
+      c = color(r,g,b);
+    }
+ 
+    ArrayList<PVector> points = new ArrayList<PVector>();
+    for (int i = 0; i < readPointsBytes.length; i += 8) { //+=16) { 
+      byte[] bytesX = { readPointsBytes[i], readPointsBytes[i+1], readPointsBytes[i+2], readPointsBytes[i+3] };
+      byte[] bytesY = { readPointsBytes[i+4], readPointsBytes[i+5], readPointsBytes[i+6], readPointsBytes[i+7] };
+      //byte[] bytesZ = { readPointsBytes[i+8], readPointsBytes[i+9], readPointsBytes[i+10], readPointsBytes[i+11] };
+      //byte[] bytesW = { readPointsBytes[i+12], readPointsBytes[i+13], readPointsBytes[i+14], readPointsBytes[i+15] };
+
+      float x = asFloat(bytesX);
+      float y = asFloat(bytesY);
+      //float z = asFloat(bytesZ);
+      //float w = asFloat(bytesW);
+      if (!Float.isNaN(x) && !Float.isNaN(y)) { // && !Float.isNaN(z)) {
+        PVector p = new PVector(x, y);
+        points.add(p);
+        println(p.x + " " + p.y);
+      }
+    }
     
-    Stroke newStroke = new Stroke(index, points);
+    Stroke newStroke = new Stroke(index, c, points);
 
     boolean doReplace = false;
     int replaceIndex = 0;
