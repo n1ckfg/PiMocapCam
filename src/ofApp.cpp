@@ -160,7 +160,9 @@ void ofApp::draw() {
                 ofNoFill();
             }
 
-              for (int h=0; h<255; h += int(255/contourSlices)) {
+            int contourCounter = 0;
+
+            for (int h=0; h<255; h += int(255/contourSlices)) {
                 threshold(frame, frameProcessed, h, 255, 0);    
                 contourFinder.findContours(frameProcessed);
                 contourFinder.draw();            
@@ -178,7 +180,8 @@ void ofApp::draw() {
                     char const * p = reinterpret_cast<char const *>(data);
                     std::string s(p, p + sizeof data);
                     contourBuffer.set(s); 
-                    sendOscContours(i);
+                    sendOscContours(contourCounter);
+                    contourCounter++;
                 }        
             }
         }
