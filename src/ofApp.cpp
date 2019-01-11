@@ -138,7 +138,6 @@ void ofApp::draw() {
         if (blobs) {
             if (debug) {
             	ofSetLineWidth(2);
-            	//contourFinder.draw();
             	ofNoFill();
             }
             int n = contourFinder.size();
@@ -158,10 +157,10 @@ void ofApp::draw() {
         if (contours) {
             if (debug) {
                 ofSetLineWidth(2);
-                contourFinder.draw();
                 ofNoFill();
             }
-            
+
+            contourFinder.draw();            
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
                 ofPolyline line = contourFinder.getPolyline(i);
