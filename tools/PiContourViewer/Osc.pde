@@ -51,8 +51,8 @@ void oscEvent(OscMessage msg) {
 
     boolean doReplace = false;
     int replaceIndex = 0;
-    for (int i=0; i<strokes.size(); i++) {
-      if (strokes.get(i).index == index) {
+    for (int i=0; i<strokesBuffer.size(); i++) {
+      if (strokesBuffer.get(i).index == index) {
         replaceIndex = i;
         doReplace = true;
         break;
@@ -60,9 +60,9 @@ void oscEvent(OscMessage msg) {
     }
     
     if (doReplace) {
-      strokes.set(replaceIndex, newStroke);
+      strokesBuffer.set(replaceIndex, newStroke);
     } else {
-      strokes.add(newStroke);
+      strokesBuffer.add(newStroke);
     }
 
     println(hostname + " " + " " + index);

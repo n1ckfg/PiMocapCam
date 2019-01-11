@@ -3,31 +3,34 @@ import peasy.PeasyCam;
 PeasyCam cam;
 
 float dotSize = 20;
-ArrayList<Stroke> strokes;
+ArrayList<Stroke> strokesBuffer;
 boolean clicked = false;
 boolean isDrawing = false;
+int fps = 60;
+int markTime = 0;
+Frame frame;
 
 void setup() {
   size(640, 480, P3D);
   frameRate(60);
   cam =  new PeasyCam(this, width/2, height/2, 400, 50);
-  strokes = new ArrayList<Stroke>();
+  strokesBuffer = new ArrayList<Stroke>();
+  frame = new Frame(strokesBuffer);
   oscSetup();
+  fps = int((1.0/float(fps)) * 1000);
 }
 
 void draw() {
   background(0);
-  lights();
   
-  noStroke();
-  fill(255,50,0.127);
-  ellipse(dot1.x, dot1.y, 20, 20);
-  fill(0,127,255,127);
-  ellipse(dot2.x, dot2.y, 20, 20);
-    
-  for (int i=0; i<strokes.size(); i++) {
-    strokes.get(i).draw();
+  int time = millis();
+  if (time > markTime + fps) {
+    markTime = time;
+    frame = new Frame(strokesBuffer);
+    strokesBuffer = new ArrayList<Stroke>();
   }
+  
+  frame.draw();
   
   surface.setTitle("" + frameRate);
 }

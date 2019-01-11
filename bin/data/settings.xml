@@ -12,6 +12,7 @@
     <!-- * -->
     <video_quality>4</video_quality>
     <video_color>0</video_color>
+    <contour_slices>20</contour_slices>
     <threshold>30</threshold>
     <sharpness>50</sharpness>
 	<contrast>0</contrast>

@@ -50,6 +50,7 @@ void ofApp::setup() {
     video = (bool) settings.getValue("settings:video", 0); 
     blobs = (bool) settings.getValue("settings:blobs", 0);
     contours = (bool) settings.getValue("settings:contours", 0); 
+    contourSlices = settings.getValue("settings:contour_slices", 0); 
     brightestPixel = (bool) settings.getValue("settings:brightest_pixel", 0); 
 
     contourThreshold = 2.0;
@@ -60,6 +61,7 @@ void ofApp::setup() {
 
     contourFinder.setMinAreaRadius(contourMinAreaRadius);
     contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
+    contourFinder.setThreshold(contourThreshold);
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
 
@@ -105,13 +107,6 @@ void ofApp::update() {
             }
        	}
 
-    	if (blobs || contours) {
-	        //autothreshold(frameProcessed);        
-	        threshold(frame, frameProcessed, thresholdValue, 255, 0);    
-	        contourFinder.setThreshold(contourThreshold);
-	        contourFinder.findContours(frameProcessed);
-    	}
-
     	if (brightestPixel) {
     		toOf(frame, gray.getPixelsRef());
     	}
@@ -140,6 +135,11 @@ void ofApp::draw() {
             	ofSetLineWidth(2);
             	ofNoFill();
             }
+            
+            //autothreshold(frameProcessed);        
+            threshold(frame, frameProcessed, thresholdValue, 255, 0);    
+            contourFinder.findContours(frameProcessed);
+
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
                 float circleRadius;
@@ -160,22 +160,27 @@ void ofApp::draw() {
                 ofNoFill();
             }
 
-            contourFinder.draw();            
-            int n = contourFinder.size();
-            for (int i = 0; i < n; i++) {
-                ofPolyline line = contourFinder.getPolyline(i);
-                vector<ofPoint> cvPoints = line.getVertices();
-                float data[cvPoints.size() * 2]; 
-                for (int j=0; j<cvPoints.size(); j++) {
-                    int index = j * 2;
-                    data[index] = cvPoints[j].x;
-                    data[index+1] = cvPoints[j].y;
-                }
-                char const * p = reinterpret_cast<char const *>(data);
-                std::string s(p, p + sizeof data);
-                contourBuffer.set(s); 
-                sendOscContours(i);
-            }        
+              for (int h=0; h<255; h += int(255/contourSlices)) {
+                threshold(frame, frameProcessed, h, 255, 0);    
+                contourFinder.findContours(frameProcessed);
+                contourFinder.draw();            
+
+                int n = contourFinder.size();
+                for (int i = 0; i < n; i++) {
+                    ofPolyline line = contourFinder.getPolyline(i);
+                    vector<ofPoint> cvPoints = line.getVertices();
+                    float data[cvPoints.size() * 2]; 
+                    for (int j=0; j<cvPoints.size(); j++) {
+                        int index = j * 2;
+                        data[index] = cvPoints[j].x;
+                        data[index+1] = cvPoints[j].y;
+                    }
+                    char const * p = reinterpret_cast<char const *>(data);
+                    std::string s(p, p + sizeof data);
+                    contourBuffer.set(s); 
+                    sendOscContours(i);
+                }        
+            }
         }
            
         if (brightestPixel) {
