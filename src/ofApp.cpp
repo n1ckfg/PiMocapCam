@@ -174,7 +174,7 @@ void ofApp::draw() {
 
                     int x = int(cvPoints[j].x);
                     int y = int(cvPoints[j].y);
-                    ofColor col = pixels[x + y * gw]
+                    ofColor col = pixels[x + y * gw];
                     float colorData[3]; 
                     colorData[0] = col.r;
                     colorData[1] = col.g;
