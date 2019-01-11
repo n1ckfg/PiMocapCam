@@ -172,8 +172,8 @@ void ofApp::draw() {
                     ofPolyline line = contourFinder.getPolyline(i);
                     vector<ofPoint> cvPoints = line.getVertices();
 
-                    int x = int(cvPoints[j].x);
-                    int y = int(cvPoints[j].y);
+                    int x = int(cvPoints[0].x);
+                    int y = int(cvPoints[0].y);
                     ofColor col = pixels[x + y * gw];
                     float colorData[3]; 
                     colorData[0] = col.r;
