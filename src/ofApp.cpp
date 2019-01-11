@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include <algorithm>
 
 using namespace cv;
 using namespace ofxCv;
@@ -164,23 +165,17 @@ void ofApp::draw() {
             
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
-                string points_char;
                 ofPolyline line = contourFinder.getPolyline(i);
                 vector<ofPoint> cvPoints = line.getVertices();
-                for(int i=0; i<cvPoints.size(); i++) {
-                    float x_float = cvPoints[i].x;
-                    float y_float = cvPoints[i].y;
-                    
-                    char x_char[sizeof(float)];
-                    char y_char[sizeof(float)];
-                    
-                    memcpy(x_char, &x_float, sizeof(float));
-                    memcpy(y_char, &y_float, sizeof(float));
-                    points_char.push_back(x_char);
-                    points_char.push_back(y_char);
+                float data[cvPoints.size() * 2]; 
+                for (int j=0; j<cvPoints.size(); j++) {
+                    int index = j * 2;
+                    data[index] = cvPoints[j].x;
+                    data[index+1] = cvPoints[j].y;
                 }
-                string points_str(points_char.begin(), points_char.end());
-                contourBuffer.set(points_str);
+                char const * p = reinterpret_cast<char const *>(data);
+                std::string s(p, p + sizeof data);
+                contourBuffer.set(s); 
                 sendOscContours(i);
             }        
         }
