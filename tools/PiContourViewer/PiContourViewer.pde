@@ -27,7 +27,7 @@ void draw() {
   if (time > markTime + fps) {
     markTime = time;
     frame = new Frame(strokesBuffer);
-    strokesBuffer = new ArrayList<Stroke>();
+    //strokesBuffer = new ArrayList<Stroke>();
   }
   
   frame.draw();

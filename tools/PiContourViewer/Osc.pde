@@ -51,20 +51,30 @@ void oscEvent(OscMessage msg) {
 
     boolean doReplace = false;
     int replaceIndex = 0;
+    
     for (int i=0; i<strokesBuffer.size(); i++) {
-      if (strokesBuffer.get(i).index == index) {
+      Stroke s = strokesBuffer.get(i);
+      if (s.index == index) {
         replaceIndex = i;
         doReplace = true;
         break;
       }
     }
-    
+        
     if (doReplace) {
       strokesBuffer.set(replaceIndex, newStroke);
     } else {
       strokesBuffer.add(newStroke);
     }
-
+  
+    int time = millis();
+    for (int i=0; i<strokesBuffer.size(); i++) {
+      Stroke s = strokesBuffer.get(i);
+      if (time > s.timestamp + s.lifespan) {
+        strokesBuffer.remove(i);
+      }
+    }
+    
     println(hostname + " " + " " + index);
     
     if (hostList.size() >= numHosts) {
