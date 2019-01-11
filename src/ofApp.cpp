@@ -61,7 +61,6 @@ void ofApp::setup() {
 
     contourFinder.setMinAreaRadius(contourMinAreaRadius);
     contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
-    contourFinder.setThreshold(contourThreshold);
     //contourFinder.setInvert(true); // find black instead of white
     trackingColorMode = TRACK_COLOR_RGB;
 
@@ -137,7 +136,8 @@ void ofApp::draw() {
             }
             
             //autothreshold(frameProcessed);        
-            threshold(frame, frameProcessed, thresholdValue, 255, 0);    
+            threshold(frame, frameProcessed, thresholdValue, 255, 0);
+            contourFinder.setThreshold(contourThreshold);    
             contourFinder.findContours(frameProcessed);
 
             int n = contourFinder.size();
@@ -163,8 +163,8 @@ void ofApp::draw() {
             int contourCounter = 0;
 
             for (int h=0; h<255; h += int(255/contourSlices)) {
-                threshold(frame, frameProcessed, h, 255, 0);    
-                contourFinder.findContours(frameProcessed);
+                contourFinder.setThreshold(h);
+                contourFinder.findContours(frame);
                 contourFinder.draw();            
 
                 int n = contourFinder.size();
