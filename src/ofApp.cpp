@@ -12,10 +12,10 @@ void ofApp::setup() {
     thresholdKeyCounter = 0;
     thresholdKeyFast = false;    
     ofSetVerticalSync(false);    
-    framerate = settings.getValue("settings:framerate", 0); 
+    framerate = settings.getValue("settings:framerate", 90); 
     ofSetFrameRate(framerate);
 
-    videoQuality = settings.getValue("settings:video_quality", 0); 
+    videoQuality = settings.getValue("settings:video_quality", 3); 
     videoColor = (bool) settings.getValue("settings:video_color", 0); 
 
     if (videoColor) {
@@ -27,8 +27,8 @@ void ofApp::setup() {
 
     camSharpness = settings.getValue("settings:sharpness", 0); 
     camContrast = settings.getValue("settings:contrast", 0); 
-    camBrightness = settings.getValue("settings:brightness", 0); 
-    camIso = settings.getValue("settings:iso", 0); 
+    camBrightness = settings.getValue("settings:brightness", 50); 
+    camIso = settings.getValue("settings:iso", 300); 
     camExposureMode = settings.getValue("settings:exposure_mode", 0); 
     camExposureCompensation = settings.getValue("settings:exposure_compensation", 0); 
     camShutterSpeed = settings.getValue("settings:shutter_speed", 0);
@@ -42,15 +42,15 @@ void ofApp::setup() {
     cam.setShutterSpeed(camShutterSpeed);
     //cam.setFrameRate // not implemented in ofxCvPiCam
 
-    host = settings.getValue("settings:host", ""); 
-    port = settings.getValue("settings:port", 0);
-    thresholdValue = settings.getValue("settings:threshold", 0); 
+    host = settings.getValue("settings:host", "127.0.0.1"); 
+    port = settings.getValue("settings:port", 7110);
+    thresholdValue = settings.getValue("settings:threshold", 127); 
     
-    debug = (bool) settings.getValue("settings:debug", 0);
+    debug = (bool) settings.getValue("settings:debug", 1);
     video = (bool) settings.getValue("settings:video", 0); 
-    blobs = (bool) settings.getValue("settings:blobs", 0);
+    blobs = (bool) settings.getValue("settings:blobs", 1);
     contours = (bool) settings.getValue("settings:contours", 0); 
-    contourSlices = settings.getValue("settings:contour_slices", 0); 
+    contourSlices = settings.getValue("settings:contour_slices", 10); 
     brightestPixel = (bool) settings.getValue("settings:brightest_pixel", 0); 
 
     contourThreshold = 2.0;
