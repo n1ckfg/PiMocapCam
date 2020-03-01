@@ -170,7 +170,7 @@ void ofApp::draw() {
                 int n = contourFinder.size();
                 for (int i = 0; i < n; i++) {
                     ofPolyline line = contourFinder.getPolyline(i);
-                    vector<ofPoint> cvPoints = line.getVertices();
+                    vector<glm::vec3> cvPoints = line.getVertices();
 
                     int x = int(cvPoints[0].x);
                     int y = int(cvPoints[0].y);
