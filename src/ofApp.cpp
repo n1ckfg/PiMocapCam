@@ -144,8 +144,8 @@ void ofApp::draw() {
                 glm::vec2 circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
                 if (debug) {
                 	ofSetColor(cyanPrint);
-                	ofCircle(circleCenter, circleRadius);
-                	ofCircle(circleCenter, 1);
+                	ofDrawCircle(circleCenter, circleRadius);
+                	ofDrawCircle(circleCenter, 1);
                 }
 
                 sendOscBlobs(i, circleCenter.x, circleCenter.y);
@@ -222,7 +222,7 @@ void ofApp::draw() {
             if (debug) {
             	ofNoFill();
             	glm::vec2 circleCenter = glm::vec2(maxBrightnessX, maxBrightnessY);
-            	ofCircle(circleCenter, 40);
+            	ofDrawCircle(circleCenter, 40);
             }
 
             sendOscPixel(maxBrightnessX, maxBrightnessY);
