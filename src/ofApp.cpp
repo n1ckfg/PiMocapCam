@@ -159,8 +159,7 @@ void ofApp::draw() {
             }
 
             int contourCounter = 0;
-            unsigned char * pixels;
-            pixels = gray.getPixels();
+            unsigned char * pixels = gray.getPixels().getData();
             int gw = gray.getWidth();
 
             for (int h=0; h<255; h += int(255/contourSlices)) {
