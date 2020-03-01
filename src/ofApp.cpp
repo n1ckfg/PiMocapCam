@@ -141,7 +141,7 @@ void ofApp::draw() {
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
                 float circleRadius;
-                ofVec2f circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
+                glm::vec2 circleCenter = toOf(contourFinder.getMinEnclosingCircle(i, circleRadius));
                 if (debug) {
                 	ofSetColor(cyanPrint);
                 	ofCircle(circleCenter, circleRadius);
@@ -221,7 +221,7 @@ void ofApp::draw() {
 
             if (debug) {
             	ofNoFill();
-            	ofVec2f circleCenter = ofVec2f(maxBrightnessX, maxBrightnessY);
+            	glm::vec2 circleCenter = glm::vec2(maxBrightnessX, maxBrightnessY);
             	ofCircle(circleCenter, 40);
             }
 
