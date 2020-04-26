@@ -7,12 +7,12 @@ void ofApp::setup() {
     settings.loadFile("settings.xml");
 
     //doDrawInfo  = true;
-    width = ofGetWidth();
-    height = ofGetHeight();
+    width = settings.getValue("settings:framerate", 320); 
+    height = settings.getValue("settings:framerate", 240); 
     thresholdKeyCounter = 0;
     thresholdKeyFast = false;    
     ofSetVerticalSync(false);    
-    framerate = settings.getValue("settings:framerate", 90); 
+    framerate = settings.getValue("settings:framerate", 60); 
     ofSetFrameRate(framerate);
 
     videoQuality = settings.getValue("settings:video_quality", 3); 

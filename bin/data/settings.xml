@@ -2,12 +2,14 @@
 <settings>
     <host>Allosaurus.local</host>
     <port>7110</port>
+    <width>640</width>
+    <height>480</height>
     <framerate>90</framerate>
     <!-- * -->
-    <debug>1</debug>
+    <debug>0</debug>
     <brightest_pixel>0</brightest_pixel>
-    <blobs>0</blobs>
-    <contours>1</contours>
+    <blobs>1</blobs>
+    <contours>0</contours>
     <video>0</video>
     <!-- * -->
     <video_quality>4</video_quality>
