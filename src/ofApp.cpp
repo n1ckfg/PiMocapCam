@@ -23,7 +23,7 @@ void ofApp::setup() {
     } else {
         gray.allocate(width, height, OF_IMAGE_GRAYSCALE);        
     }
-    cam.setup(width, height, videoColor); // color/gray;
+    cam.setup(width, height, framerate, videoColor); // color/gray;
 
     camSharpness = settings.getValue("settings:sharpness", 0); 
     camContrast = settings.getValue("settings:contrast", 0); 
