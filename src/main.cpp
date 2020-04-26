@@ -1,11 +1,17 @@
 #include "ofMain.h"
 #include "ofApp.h"
-//#include "ofAppNoWindow.h"
 
-int main() {
-	//ofAppNoWindow w;
-	//ofSetupOpenGL(&w, 640, 480, OF_WINDOW);
-	//ofSetupOpenGL(640, 480, OF_WINDOW);
-	ofSetupOpenGL(OF_FULLSCREEN);
-	ofRunApp(new ofApp());
+//========================================================================
+int main( ){
+
+    ofGLESWindowSettings settings;
+	settings.glesVersion = 2;
+	settings.windowMode = OF_FULLSCREEN;
+	ofCreateWindow(settings);
+	
+	// this kicks off the running of my app
+	// can be OF_WINDOW or OF_FULLSCREEN
+	// pass in width and height too:
+	ofRunApp( new ofApp());
+
 }
